@@ -72,6 +72,7 @@ export const host = "http://127.0.0.1:8090";
       return response.json();
     } else if (response.status === 401) {
       console.log("need new token");
+      
       // updateToken();
       // <Link to="login" />;
       // return getUser(getTokenFromLocalStorage());
