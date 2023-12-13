@@ -72,10 +72,20 @@ export const host = "http://127.0.0.1:8090";
       return response.json();
     } else if (response.status === 401) {
       console.log("need new token");
-      
+
       // updateToken();
       // <Link to="login" />;
       // return getUser(getTokenFromLocalStorage());
     }
     throw new Error("Нет авторизации");
   }
+
+  export const updateToken = async () => {
+    try {
+      const token = getTokenFromLocalStorage();
+      const data = await getToken(token);
+      saveTokenToLocalStorage(data);
+    } catch (error) {
+      throw new Error(`Ошибка при обновлении токена:`);
+    }
+  };
