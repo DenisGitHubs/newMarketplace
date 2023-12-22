@@ -9,6 +9,7 @@ import { Review } from './Components/reviews/review';
 import { NewProduct } from './Components/NewProductAdd/newProduct';
 import { EditorAdv } from './Components/EditorAdv/editor';
 import { NotFound } from './Pages/NotFound/NotFound';
+import { ProtectedRoute } from './ProtectedRoutes';
 
 const products = [
   {

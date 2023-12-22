@@ -22,7 +22,6 @@ export const NewProduct = () => {
     const [description, setDescription] = useState('');
     const [price, setPrice] = useState('');
     const [isFormValid, setIsFormValid] = useState(null);
-
     const navigate = useNavigate();
 
       const handlePostNewAdv = async () => {

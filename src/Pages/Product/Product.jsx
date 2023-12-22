@@ -44,10 +44,18 @@ export const Product = ({}) => {
   const userIsSeller = Boolean(String(data.user_id) === window.localStorage.getItem('id'));
 
   const deleteThisAdv = async () => {
-    await updateToken()
     const access = getAccessTokenLocal()
     await deleteAdv({access, id })
+    console.log('done');
     navigate(-1)
+  }
+const mainUpdaiteToken = async () => {
+        await updateToken();
+        await deleteThisAdv();
+}
+  if(isErrorDelete && errorDelete.status === 401) {
+    console.log(errorDelete.status);
+    mainUpdaiteToken()
   }
 
 
@@ -124,7 +132,7 @@ export const Product = ({}) => {
   };
 
   // заглушка на залогиненного юзера
-  const userLoggedIn = false;
+  // const userLoggedIn = false;
 
   const [showAdvEdit, setShowAdvEdit] = useState(false);
   const openAdvEditor = () => {
