@@ -8,11 +8,9 @@ import { getAccessTokenLocal } from '../../helpers/token';
 import { updateToken } from '../../Api/tokenApi';
 import { useEffect, useState } from 'react';
 import { handleAvatarClick, handleAvatarUpload, handleChangeMe, profileUserData, saveUserLocal } from '../../helpers/user';
-import { uploadUserAvatar } from '../../Api/userApi';
-import { NewProduct } from '../../Components/NewProductAdd/newProduct';
 import { useGetAllMyAdsQuery } from '../../Store/RTKQuery/getMyAds';
 
-export const Profile = ({ products }) => {
+export const Profile = ({}) => {
   const [city, setCity] = useState('')
   const [avatar, setAvatar] = useState(null)
   const [userName, setUserName] = useState('')
@@ -24,8 +22,6 @@ export const Profile = ({ products }) => {
   const {data =[], isError, error, isSuccess, refetch} = useGetMeQuery(access);
   const [changeMe, {isError: isErrorChangeMe, error: errorChangeMe}] = useChangeMeMutation()
   const {data: dataMyAds=[]} = useGetAllMyAdsQuery(access)
-  console.log(dataMyAds);
-  console.log(access);
   const asyncUpgate = async () => {
     await updateToken()
     await refetch()
@@ -63,7 +59,7 @@ export const Profile = ({ products }) => {
                     <S.SettingsLeft>
                       <S.SettingsImg>
                         <S.SettingsImgLink >
-                          <S.SettingsImgImg src={avatar === null ? 'img/empty-profile.svg' : `http://localhost:8090/${avatar}`} alt='first_photo'/>
+                          <S.SettingsImgImg src={avatar === null ? 'img/empty-profile.png' : `http://localhost:8090/${avatar}`} alt='first_photo'/>
                         </S.SettingsImgLink>
                       </S.SettingsImg>
                       <S.SettingsImgInput

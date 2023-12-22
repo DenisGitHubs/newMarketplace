@@ -186,8 +186,8 @@ export const ProductImageBarDiv = styled.img`
     object-fit: cover;
     transition: all 0.7s ease;
     &:hover {
-      width: 200px;
-      height: 200px;
+      width: 92px;
+      height: 92px;
       z-index: 1;
     }
 `;

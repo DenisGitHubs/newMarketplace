@@ -1,31 +1,20 @@
-import { useGetAllAdsQuery } from '../../Store/RTKQuery/getAds';
+
 import { useState, useEffect } from 'react';
 import { Card } from '../../Components/Card/Card';
 import { Footer } from '../../Components/Footer/Footer';
 import { Header } from '../../Components/Header/Header';
 import { Search } from '../../Components/Search/Search';
 import * as S from './main.styled';
-import { useDispatch } from 'react-redux';
-import { saveProducts } from '../../Store/Slices/dataProductsSlice';
 import { HeaderSecond } from '../../Components/HeaderSecond/HeaderSecond';
-import { NewProduct } from '../../Components/NewProductAdd/newProduct';
+import { getAccessTokenLocal } from '../../helpers/token';
+import { useGetAllAdsQuery } from '../../Store/RTKQuery/getMyAds';
 
-export const Main = ({ products }) => {
-  // заглушка на залогиненного юзера
-  const userLoggedIn = true;
-
-
-  const dispatch = useDispatch();
+export const Main = () => {
+  const userLoggedIn = getAccessTokenLocal();
   const { data = [], isSuccess } = useGetAllAdsQuery();
-  if (isSuccess) {
-    dispatch(saveProducts({ data }));
-    console.log(data);
-  }
-
   const [searchAdv, setSearchAdv] = useState('');
   const [filteredData, setFilteredData] = useState([]);
   const [error, setError] = useState(null);
-
   useEffect(() => {
     const filtered = data.filter((product) =>
       product.title.toLowerCase().includes(searchAdv.toLowerCase()),
@@ -42,7 +31,7 @@ export const Main = ({ products }) => {
   return (
     <S.Wrapper>
       <S.Container>
-        {userLoggedIn ? <HeaderSecond /> : <Header />}
+        {(userLoggedIn && (userLoggedIn !== 'undefined')) ? <HeaderSecond /> : <Header />}
         <S.Main>
           <Search setSearchAdv={setSearchAdv} />
           <S.MainContainer>
@@ -58,8 +47,6 @@ export const Main = ({ products }) => {
             )}
           </S.MainContainer>
         </S.Main>
-        {/* {newProductModal ? 
-             <NewProduct setNewProductModal={setNewProductModal} /> : null} */}
         <Footer />
       </S.Container>
     </S.Wrapper>

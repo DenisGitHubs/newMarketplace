@@ -94,6 +94,7 @@ display: none;
   @media screen and (max-width: 600px) {
     display: flex;
     align-items: center;
+    cursor: pointer;
   }
 `
 
@@ -413,8 +414,8 @@ export const FormNewArtImg = styled.div`
 `;
 export const Img = styled.img`
   display: block;
-  width: 100%;
-  height: auto;
+  width: 90px;
+  height: 90px;
   object-fit: cover;
   z-index: 2;
   @media screen and (max-width: 600px) {
@@ -583,9 +584,7 @@ export const FormNewArtBtnPubBtnHov02 = styled.button`
   font-size: 16px;
   line-height: 24px;
   color: #ffffff;
-  &:hover {
-    background-color: #0080c1;
-  }
+  background-color: ${props => (props.$isFormValid ? '#0080c1' : '#d9d9d9')};
   @media screen and (max-width: 600px) {
     margin-top: 10px;
     width: 100%;

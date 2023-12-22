@@ -11,10 +11,9 @@ export const deleteUserLocal = () => {
     localStorage.removeItem('email')
     localStorage.removeItem('name')
     localStorage.removeItem('id');
-    localStorage.removeItem('token')
-    if(localStorage.getItem('avatar')){
-        localStorage.removeItem('avatar')
-    }
+    localStorage.removeItem('access')
+    localStorage.removeItem('refresh')
+    localStorage.removeItem('type')
 }
 export const getEmailFromLocal = () => localStorage.getItem('email')
 

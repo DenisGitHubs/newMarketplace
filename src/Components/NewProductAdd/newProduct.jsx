@@ -1,73 +1,44 @@
 import * as S from './newProduct.styled';
 import { HeaderSecond } from '../../Components/HeaderSecond/HeaderSecond';
 import { Footer } from '../../Components/Footer/Footer';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { getAccessTokenLocal } from '../../helpers/token';
 import { useDispatch, useSelector } from 'react-redux';
-import { savePhoto } from '../../Store/Slices/photoSlice';
-import { useAddAdsWithoutImgMutation, useAddImgsMutation } from '../../Store/RTKQuery/getAds';
 import { useNavigate } from 'react-router-dom';
 import { updateToken } from '../../Api/tokenApi';
-import { uploadImage } from '../../Api/adsApi';
+import { useAddAdsWithoutImgMutation, useAddImgsMutation } from '../../Store/RTKQuery/getMyAds';
+import { deleteImgFromState, handleImageChange } from '../../helpers/delAndUpImg';
 
 
 
-export const NewProduct = ({}) => {
-    const [images, setImages] = useState([]);
-    const [saveButtonActive, setSaveButtonActive] = useState(true);
-    const [addAdsWithoutImg, {isError, error}] = useAddAdsWithoutImgMutation()
+
+export const NewProduct = () => {
+    const [images, setImages] = useState([null, null, null, null, null]);
+    const [imgShow, setImgShow] = useState([null, null, null, null, null]);
+    const [saveButtonActive] = useState(true);
+    const [addAdsWithoutImg] = useAddAdsWithoutImgMutation();
     const [addImgs] = useAddImgsMutation();
-    const photo = useSelector(state => state.photo)
     const [title, setTitle] = useState('');
     const [description, setDescription] = useState('');
-    const [price, setPrice] = useState('')
+    const [price, setPrice] = useState('');
+    const [isFormValid, setIsFormValid] = useState(null);
+
     const navigate = useNavigate();
-
-    const handleImgUpload = async (file) => {
-        const formData = new FormData();
-        if (file) {
-          formData.append("file", file);
-          postAdsImage({
-            access: getAccessTokenLocal(),
-            image: formData,
-          });
-          setSaveButtonActive(true);
-          setImages(images);
-        } else {
-          console.log("Файл не найден");
-        }
-      };
-
-      const handleImageChange = (e) => {
-        const file = e.target.files[0];
-        if (images.length < 5) {
-          setImages([...images, file]);
-          console.log(images);
-        } else {
-          alert('Можно загрузить не более пяти изображений.');
-        }
-      };
 
       const handlePostNewAdv = async () => {
         const access = getAccessTokenLocal()
         try{
             const dataAdv = await addAdsWithoutImg({access, title, description, price}).unwrap()
-            console.log(dataAdv);
             if(images.length > 0) {
                 const advID = dataAdv.id
                 console.log(advID);
                 images.forEach((image) => {
-                    const formData = new FormData();
-                    formData.append(`file`, image);
-                    console.log(image);
-                    const response = uploadImage({advID, image})
-                    console.log(response);
-                    // addImgs({access, advID, formData})
+                    const formDataFile = new FormData();
+                    formDataFile.append('file', image);
+                    addImgs({access, advID, formDataFile})
                     });
-                
-
-
             }
+            closeModal()
         } catch(error) {
             if(error.status === 401) {
                 await updateToken();
@@ -75,26 +46,20 @@ export const NewProduct = ({}) => {
                 return
             }
         }
-        
-    //     const formData = new FormData();
-    //   images.forEach((image, index) => {
-    //     formData.append(`[${index + 1}]`, image);
-    //   });
-    //   formData.append('title', title);
-    //   formData.append('description', description);
-    //   formData.append('price', price);
-      
-
       }
-    //   const handleAvatarClick = () => {
-    //     // fileUpload.click();
-    //     setAvatar(event.target.value);
-    //   };
 
       const closeModal = () => {
         navigate(-1);
       }
-      
+
+      useEffect(() => {
+        if (title && price) {
+          setIsFormValid(true);
+        } else {
+          setIsFormValid(false);
+        }
+      }, [title, price]);
+
     return (
         <S.Wrapper>
             <HeaderSecond  />
@@ -121,69 +86,52 @@ export const NewProduct = ({}) => {
                             <S.FormNewArtBlock>
                                 <S.FormNewArtP>Фотографии товара<S.Span>не более 5 фотографий</S.Span></S.FormNewArtP>
                                 <S.FormNewArtBarImg>
-                                    <S.FormNewArtImg>
-                                        <S.Img src={photo} alt=""/>
-                                        <S.FormNewArtImgCover
-                                            id="upload-photo"
-                                            type="file"
-                                            accept="image/*"
-                                            onChange={(e) => {
-                                                handleImageChange(e)
-                                            }}
-                                            ></S.FormNewArtImgCover>
-                                    </S.FormNewArtImg>
-                                    <S.FormNewArtImg>
-                                        <S.Img src="" alt=""/>
-                                        <S.FormNewArtImgCover
-                                            id="upload-photo"
-                                            type="file"
-                                            accept="image/*"
-                                            onChange={(e) => {
-                                                handleImageChange(e)
-                                            }}
-                                            ></S.FormNewArtImgCover>
-                                    </S.FormNewArtImg>
-                                    <S.FormNewArtImg>
-                                        <S.Img src="" alt=""/>
-                                        <S.FormNewArtImgCover
-                                            id="upload-photo"
-                                            type="file"
-                                            accept="image/*"
-                                            onChange={(e) => {
-                                                handleImageChange(e)
-                                            }}
-                                            ></S.FormNewArtImgCover>
-                                    </S.FormNewArtImg>
-                                    <S.FormNewArtImg>
-                                        <S.Img src="" alt=""/>
-                                        <S.FormNewArtImgCover
-                                            id="upload-photo"
-                                            type="file"
-                                            accept="image/*"
-                                            onChange={(e) => {
-                                                handleImageChange(e)
-                                            }}
-                                            ></S.FormNewArtImgCover>
-                                    </S.FormNewArtImg>
-                                    <S.FormNewArtImg>
-                                        <S.Img src="" alt=""/>
-                                        <S.FormNewArtImgCover
-                                            id="upload-photo"
-                                            type="file"
-                                            accept="image/*"
-                                            onChange={(e) => {
-                                                handleImageChange(e)
-                                            }}
-                                            ></S.FormNewArtImgCover>
-                                    </S.FormNewArtImg>
+                                  {
+                                    imgShow.map((el, i) => el ? 
+                                    <S.FormNewArtImg key={`image-${i}`}>
+                                    <S.Img
+                                     src={el}
+                                      alt="image"
+                                      key={`image-${i}`}
+                                      id="upload-photo"
+                                      type="file"
+                                      accept="image/*"
+                                      onClick={() =>  deleteImgFromState(i, setImages, setImgShow)}
+                                      /> 
+                                      </S.FormNewArtImg>
+                                      :
+                                       <S.FormNewArtImg key={`image-${i}`}>
+                                      <S.FormNewArtImgCover
+                                        id="upload-photo"
+                                        type="file"
+                                        accept="image/*"
+                                        onChange={(e) => {
+                                          handleImageChange(e, i, setImgShow, images, setImages);
+                                        }}
+                                      ></S.FormNewArtImgCover>
+                                    </S.FormNewArtImg>)
+                                  }
                                 </S.FormNewArtBarImg>
                             </S.FormNewArtBlock>
                             <S.FormNewArtBlockBlockPrice>
-                                <S.Label htmlFor="price">Цена</S.Label>
-                                <S.FormNewArtInputPrice type="text" value={price} onChange={(e) => setPrice(e.target.value)}/>
-                                <S.FormNewArtInputPriceCover/>
+                                <S.Label htmlFor='price'>Цена</S.Label>
+                                <S.FormNewArtInputPrice
+                                type='text'
+                                value={price}
+                                onChange={(e) => {
+                                    if (/^\d+$/.test(e.target.value) || e.target.value === '') {
+                                    setPrice(e.target.value);
+                                    }
+                                }}
+                                />                                <S.FormNewArtInputPriceCover/>
                             </S.FormNewArtBlockBlockPrice>
-                            <S.FormNewArtBtnPubBtnHov02 disabled={!saveButtonActive} onClick={() => handlePostNewAdv()}>Опубликовать</S.FormNewArtBtnPubBtnHov02>
+                            <S.FormNewArtBtnPubBtnHov02 
+                                disabled={!saveButtonActive} 
+                                onClick={() => handlePostNewAdv()} 
+                                $isFormValid={isFormValid}
+                                >
+                                Опубликовать
+                                </S.FormNewArtBtnPubBtnHov02>
                         </S.ModalFormNewArtFormNewArt>
                     </S.ModalContent>
                 </S.ModalBlock>

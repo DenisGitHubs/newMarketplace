@@ -130,6 +130,11 @@ export const SettingsImgImg = styled.img`
   display: block;
   -o-object-fit: cover;
   object-fit: cover;
+
+  @media screen and (max-width: 600px) {
+    width: 132px;
+    height: 132px;
+  }
 `;
 
 export const SettingsChangePhoto = styled.a`

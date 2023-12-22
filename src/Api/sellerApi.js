@@ -6,6 +6,5 @@ export async function getSeller() {
     headers: {
       'content-type': 'application/json',
     },
-  })
-    .then((response) => response.json());
+  }).then((response) => response.json());
 }

@@ -1,6 +1,5 @@
 
-import { saveTokenUserAfterSignIn } from "../Store/Slices/userSlice";
-import { getAccessTokenLocal, getRefreshTokenLocal, getTypeTokenLocal } from "../helpers/token";
+import { getAccessTokenLocal } from "../helpers/token";
 import { updateToken } from "./tokenApi";
 export const host = "http://127.0.0.1:8090";
 

@@ -17,6 +17,9 @@ export const SignIn = ({ setChoiceReg }) => {
             <S.ModalLogo>
               <S.ModalLogoImg src='img/logo_modal.png' alt='' />
             </S.ModalLogo>
+            <S.ModalBtnClose onClick={() => {navigate('/')}}>
+              <S.ModalBtnCloseLine />
+            </S.ModalBtnClose>
             {error && <S.ErrorMessage>{error}</S.ErrorMessage>}
             <S.ModalInputLogin
               value={email}
@@ -33,15 +36,10 @@ export const SignIn = ({ setChoiceReg }) => {
               placeholder='Пароль'
             />
             <S.ModalBtnEnter>
-              <S.ModalBtnEnterLink
-                onClick={(event) => {
-                    handleSignIn(
-                      email,
-                      password,
-                      setError,
-                      navigate
-                    );
-                  
+            <S.ModalBtnEnterLink
+                onClick={() => {
+                  if (validateFormLog(email, password, setError))
+                    handleSignIn(email, password, setError, navigate);
                 }}
               >
                 Войти

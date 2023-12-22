@@ -46,9 +46,10 @@ export const MainH2 = styled.h2`
     font-size: 24px;
     line-height: 29px;
     color: #000000;
-    padding: 0 0 0 26px;
     margin-bottom: 20px;
     position: relative;
+    display: flex;
+    gap: 30px;
   }
 `;
 
@@ -111,10 +112,19 @@ export const SellerImg = styled.div`
 export const SellerLinkImg = styled.a``;
 
 export const SellerImgImg = styled.img`
-  width: 100%;
-  height: auto;
+  // width: 100%;
+  // height: auto;
+  width: 170px;
+  height: 170px;
   display: block;
   object-fit: cover;
+  border-radius: 50%;
+
+  @media screen and (max-width: 580px) {
+    width: 132px;
+    height: 132px;
+    border-radius: 50%;
+  }
 `;
 
 export const SellerRight = styled.div`
@@ -176,10 +186,11 @@ export const SellerImgMobLink = styled.a``;
 
 export const SellerImgMobImg = styled.img`
   @media screen and (max-width: 580px) {
-    width: 100%;
-    height: auto;
+    width: 132px;
+    height: 132px;
     display: block;
     object-fit: cover;
+    border-radius: 50%;
   }
 `;
 
