@@ -28,29 +28,16 @@ export const ProductArticle = styled.div`
 `;
 
 export const ProductArticleContent = styled.div`
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
-  -webkit-box-align: top;
-  -ms-flex-align: top;
   align-items: top;
-  -webkit-box-pack: center;
-  -ms-flex-pack: center;
   justify-content: center;
 
   @media screen and (max-width: 1000px) {
     display: -webkit-box;
     display: -ms-flexbox;
     display: flex;
-    -webkit-box-orient: vertical;
-    -webkit-box-direction: normal;
-    -ms-flex-direction: column;
     flex-direction: column;
-    -webkit-box-align: center;
-    -ms-flex-align: center;
     align-items: center;
-    -webkit-box-pack: center;
-    -ms-flex-pack: center;
     justify-content: center;
   }
 `;
@@ -70,12 +57,7 @@ export const ProductArticleLeft = styled.div`
     display: -webkit-box;
     display: -ms-flexbox;
     display: flex;
-    -webkit-box-orient: vertical;
-    -webkit-box-direction: normal;
-    -ms-flex-direction: column;
     flex-direction: column;
-    -webkit-box-align: center;
-    -ms-flex-align: center;
     align-items: center;
     margin-right: 0;
     margin-bottom: 20px;
@@ -111,23 +93,6 @@ export const ProductArticleFillImg = styled.div`
         align-items: center;
         justify-content: center;
         position: relative;
-        
-
-
-        &::before {
-            content: "";
-            display: block;
-            width: 23px;
-            height: 23px;
-            background-color: transparent;
-            border-top: 2px solid #000000;
-            border-left: 2px solid #000000;
-            transform: rotate(-45deg);
-            position: absolute;
-            top: 24px;
-            left: 32px;
-            cursor: pointer;
-        }
 
         @media screen and (max-width: 600px) {
             aspect-ratio: 1 / 1;
@@ -163,7 +128,7 @@ export const ProductImageBarDesktop = styled.div`
   justify-content: left;
   margin-left: -5px;
   position: relative;
-  height: 100px; 
+  height: 100px;
   display: flex;
   @media screen and (max-width: 1000px) {
     display: none;
@@ -171,25 +136,24 @@ export const ProductImageBarDesktop = styled.div`
 `;
 
 export const RenderImg = styled.div`
-height: ${(props) => (props.$isExpanded ? '300px' : '88px')};
-
-`
+  height: ${(props) => (props.$isExpanded ? '300px' : '88px')};
+`;
 
 export const ProductImageBarDiv = styled.img`
   width: 88px;
   height: 88px;
   min-width: 88px;
-    background-color: #f0f0f0;
-    border: 2px solid #f0f0f0;
-    margin: 0 5px;
-    display: block;
-    object-fit: cover;
-    transition: all 0.7s ease;
-    &:hover {
-      width: 92px;
-      height: 92px;
-      z-index: 1;
-    }
+  background-color: #f0f0f0;
+  border: 2px solid #f0f0f0;
+  margin: 0 5px;
+  display: block;
+  object-fit: cover;
+  transition: all 0.7s ease;
+  &:hover {
+    width: 92px;
+    height: 92px;
+    z-index: 1;
+  }
 `;
 
 export const ProductImageBarMobile = styled.div`
@@ -199,6 +163,12 @@ export const ProductImageBarMobile = styled.div`
     display: block;
     width: 68px;
     height: 8px;
+    background-color: #f0f0f0;
+    padding: 7px;
+    border-radius: 3px;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
     position: absolute;
     bottom: 20px;
     left: calc(50% - (68px / 2));
@@ -220,8 +190,9 @@ export const ProductImageBarMobile = styled.div`
 `;
 
 export const ProductImageBarMobileCircle = styled.div`
-  background-color: #ffffff;
-  &:active {
+  background-color: ${(props) => (props.$active ? '#ffffff' : '#eeeeee')};
+  border: 1px solid #ffffff;
+  &:hover {
     background-color: #ffffff;
   }
 
@@ -229,7 +200,6 @@ export const ProductImageBarMobileCircle = styled.div`
     width: 8px;
     height: 8px;
     border-radius: 50%;
-    border: 1px solid #ffffff;
   }
 `;
 
@@ -237,9 +207,6 @@ export const ProductArticleRightBlock = styled.div`
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
-  -webkit-box-orient: vertical;
-  -webkit-box-direction: normal;
-  -ms-flex-direction: column;
   flex-direction: column;
 `;
 
@@ -335,6 +302,7 @@ export const ProductButton = styled.div`
   line-height: 22px;
   color: #ffffff;
   display: flex;
+  flex-wrap: wrap;
   justify-content: center;
   flex-direction: column;
   align-items: center;
@@ -365,15 +333,8 @@ export const ProductButtonSpan = styled.span`
 export const ProductAuthor = styled.div`
   margin-top: 34px;
   margin-bottom: 20px;
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
-  -webkit-box-orient: horizontal;
-  -webkit-box-direction: normal;
-  -ms-flex-direction: row;
   flex-direction: row;
-  -webkit-box-align: start;
-  -ms-flex-align: start;
   align-items: flex-start;
 
   @media screen and (max-width: 1000px) {
@@ -388,7 +349,6 @@ export const ProductAuthorImage = styled.img`
   background-color: #f0f0f0;
   border-radius: 50%;
   display: block;
-  -o-object-fit: cover;
   object-fit: cover;
 `;
 
@@ -463,3 +423,14 @@ export const ProductDescriptionText = styled.p`
   line-height: 24px;
   color: #000000;
 `;
+
+// export const ArrayLeft = styled.img`
+//   display: none;
+//   @media screen and (max-width: 1000px) {
+//     display: block;
+//     position: absolute;
+//     top: 20px;
+//     left: 27px;
+//     cursor: pointer;
+//   }
+// `;

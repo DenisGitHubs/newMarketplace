@@ -16,6 +16,7 @@ import { updateToken } from '../../Api/tokenApi';
 import { getSeller } from '../../Api/sellerApi';
 import { useDeleteAdvMutation } from '../../Store/RTKQuery/getMyAds';
 import { getAccessTokenLocal } from '../../helpers/token';
+import { ArrayLeftSvg } from '../../helpers/ArrayLeftSvg/ArrayLeftSvg';
 
 export const Product = ({}) => {
   const { id } = useParams();
@@ -57,6 +58,7 @@ const mainUpdaiteToken = async () => {
     console.log(errorDelete.status);
     mainUpdaiteToken()
   }
+
 
 
   useEffect(() => {
@@ -131,9 +133,6 @@ const mainUpdaiteToken = async () => {
     }
   };
 
-  // заглушка на залогиненного юзера
-  // const userLoggedIn = false;
-
   const [showAdvEdit, setShowAdvEdit] = useState(false);
   const openAdvEditor = () => {
     setShowAdvEdit(true);
@@ -159,6 +158,9 @@ const mainUpdaiteToken = async () => {
             <St.ProductArticleContent>
               <St.ProductArticleLeft>
                 <St.ProductArticleFillImg>
+                <Link to='/'>
+                    <ArrayLeftSvg/>
+                  </Link>
                   <St.ProductArticleImage
                     src={selectedImage}
                     alt='Фото товара'
@@ -176,11 +178,13 @@ const mainUpdaiteToken = async () => {
                     ))}
                   </St.ProductImageBarDesktop>
                   <St.ProductImageBarMobile>
-                    <St.ProductImageBarMobileCircle />
-                    <St.ProductImageBarMobileCircle />
-                    <St.ProductImageBarMobileCircle />
-                    <St.ProductImageBarMobileCircle />
-                    <St.ProductImageBarMobileCircle />
+                    {data.images.map((image) => (
+                      <St.ProductImageBarMobileCircle 
+                        key={image.id}
+                        onClick={() => handleImageClick(`http://localhost:8090/${image.url}`)}
+                        $active={selectedImage === `http://localhost:8090/${image.url}`}
+                      />
+                    ))}
                   </St.ProductImageBarMobile>
                 </St.ProductArticleFillImg>
               </St.ProductArticleLeft>

@@ -34,4 +34,5 @@ export const deleteImgFromState= (i, setImages, setImgShow) => {
     } else {
       alert('Можно загрузить не более пяти изображений.');
     }
+
   };
