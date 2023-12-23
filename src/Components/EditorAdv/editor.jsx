@@ -3,29 +3,61 @@ import { useEffect, useState } from 'react';
 import { HeaderSecond } from '../HeaderSecond/HeaderSecond';
 import * as S from '../NewProductAdd/newProduct.styled';
 import { Footer } from '../Footer/Footer';
-import { deleteImgFromState, handleImageChange } from '../../helpers/delAndUpImg';
+import { deleteImgFromState, deleteImgFromStateAndServer, handleImageChange } from '../../helpers/delAndUpImg';
+import { useAddChangeImgsMutation, useChangeAdsTextMutation, useDeleteImgMutation } from '../../Store/RTKQuery/getAdvId';
+import { getAccessTokenLocal } from '../../helpers/token';
+import { updateToken } from '../../Api/tokenApi';
 
 
 export const EditorAdv = ({data, closeModal }) => {
-  console.log(data);
-  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
   const [images, setImages] = useState([null, null, null, null, null]);
-  const [imgShow, setImgShow] = useState([null, null, null, null, null]);
+  const [imgShow, setImgShow] = useState(data.images);
+  const [imgDelete, setImgDelete] = useState([null, null, null, null, null]);
   const [title, setTitle] = useState(data.title);
   const [description, setDescription] = useState(data.description)
   const [price, setPrice] = useState(data.price)
+  const [deleteImg] = useDeleteImgMutation();
+  const [changeAdsText, { isError, error}] = useChangeAdsTextMutation()
+  const [addChangeImgs] = useAddChangeImgsMutation()
   useEffect(() => {
-    const handleResize = () => {
-      setWindowWidth(window.innerWidth);
-    };
+    if(imgShow.length < 5) {
+      const numberLength = 5 - imgShow.length;
+      const mass = Array(numberLength).fill(null)
+      const newData = imgShow.concat(mass)
+      setImgShow(newData)
+    }
+  },[])
 
-    window.addEventListener('resize', handleResize);
 
-    return () => {
-      window.removeEventListener('resize', handleResize);
-    };
-  }, []);
-
+const saveChanges = async () => {
+  const access = getAccessTokenLocal();
+  const id = data.id;
+  await changeAdsText({access, id, title, description, price})
+  if(imgDelete.length > 0){
+    imgDelete.forEach((urlImg) => {
+      if(urlImg !== null){
+        console.log('del');
+        deleteImg({access, id, urlImg});
+      }
+    })
+  }
+  if(images.length > 0) {
+    images.forEach((image) => {
+        const formDataFile = new FormData();
+        formDataFile.append('file', image);
+        addChangeImgs({access, id, formDataFile})
+        });
+}
+closeModal();
+};
+const mainUpdaiteToken = async () => {
+  await updateToken();
+  saveChanges();
+  return
+}
+if(isError && error.status === 401) {
+mainUpdaiteToken()
+}
   return (
     <S.Wrapper>
       <S.ContainerBg>
@@ -60,18 +92,30 @@ export const EditorAdv = ({data, closeModal }) => {
                   Фотографии товара<S.Span>не более 5 фотографий</S.Span>
                 </S.FormNewArtP>
                 <S.FormNewArtBarImg>
-                {imgShow.map((el, i) => el ? 
+                {imgShow.map((el, i) => el ? el.url ?
                 <S.FormNewArtImg key={`image-${i}`}>
                 <S.Img
-                      src={el}
+                    src={`http://localhost:8090/${el.url}`}
                     alt="image"
                     key={`image-${i}`}
                     id="upload-photo"
                     type="file"
                     accept="image/*"
-                    onClick={() =>  deleteImgFromState(i, setImages, setImgShow)}
+                    onClick={() =>  deleteImgFromStateAndServer(i, setImages, setImgShow, setImgDelete, el)}
                     /> </S.FormNewArtImg>
-                    : <S.FormNewArtImg key={`image-${i}`}>
+                    :
+                    <S.FormNewArtImg key={`image-${i}`}>
+                    <S.Img
+                        src={el}
+                        alt="image"
+                        key={`image-${i}`}
+                        id="upload-photo"
+                        type="file"
+                        accept="image/*"
+                        onClick={() =>  deleteImgFromState(i, setImages, setImgShow)}
+                        /> </S.FormNewArtImg>
+                    : 
+                    <S.FormNewArtImg key={`image-${i}`}>
                     <S.FormNewArtImgCover
                       id="upload-photo"
                       type="file"
@@ -82,26 +126,6 @@ export const EditorAdv = ({data, closeModal }) => {
                     ></S.FormNewArtImgCover>
                   </S.FormNewArtImg>)
                 }
-                  <S.FormNewArtImg>
-                    <S.Img src='' alt='' />
-                    <S.FormNewArtImgCover />
-                  </S.FormNewArtImg>
-                  <S.FormNewArtImg>
-                    <S.Img src='' alt='' />
-                    <S.FormNewArtImgCover />
-                  </S.FormNewArtImg>
-                  <S.FormNewArtImg>
-                    <S.Img src='' alt='' />
-                    <S.FormNewArtImgCover />
-                  </S.FormNewArtImg>
-                  <S.FormNewArtImg>
-                    <S.Img src='' alt='' />
-                    <S.FormNewArtImgCover />
-                  </S.FormNewArtImg>
-                  <S.FormNewArtImg>
-                    <S.Img src='' alt='' />
-                    <S.FormNewArtImgCover />
-                  </S.FormNewArtImg>
                 </S.FormNewArtBarImg>
               </S.FormNewArtBlock>
               <S.FormNewArtBlockBlockPrice>
@@ -109,7 +133,7 @@ export const EditorAdv = ({data, closeModal }) => {
                 <S.FormNewArtInputPrice type='text' value={price} onChange={e => setPrice(e.target.value)} />
                 <S.FormNewArtInputPriceCover />
               </S.FormNewArtBlockBlockPrice>
-              <S.FormNewArtBtnPubBtnHov02>Сохранить</S.FormNewArtBtnPubBtnHov02>
+              <S.FormNewArtBtnPubBtnHov02 onClick={() => saveChanges()}>Сохранить</S.FormNewArtBtnPubBtnHov02>
             </S.ModalFormNewArtFormNewArt>
           </S.ModalContent>
         </S.ModalBlock>

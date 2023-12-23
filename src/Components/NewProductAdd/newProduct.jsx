@@ -9,9 +9,6 @@ import { updateToken } from '../../Api/tokenApi';
 import { useAddAdsWithoutImgMutation, useAddImgsMutation } from '../../Store/RTKQuery/getMyAds';
 import { deleteImgFromState, handleImageChange } from '../../helpers/delAndUpImg';
 
-
-
-
 export const NewProduct = () => {
     const [images, setImages] = useState([null, null, null, null, null]);
     const [imgShow, setImgShow] = useState([null, null, null, null, null]);
@@ -30,7 +27,6 @@ export const NewProduct = () => {
             const dataAdv = await addAdsWithoutImg({access, title, description, price}).unwrap()
             if(images.length > 0) {
                 const advID = dataAdv.id
-                console.log(advID);
                 images.forEach((image) => {
                     const formDataFile = new FormData();
                     formDataFile.append('file', image);
@@ -46,11 +42,9 @@ export const NewProduct = () => {
             }
         }
       }
-
       const closeModal = () => {
         navigate(-1);
       }
-
       useEffect(() => {
         if (title && price) {
           setIsFormValid(true);

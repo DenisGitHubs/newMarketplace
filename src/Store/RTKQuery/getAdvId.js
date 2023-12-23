@@ -13,6 +13,43 @@ export const advId = createApi({
                 DATA_TAG,
             ],
         }),
+        deleteImg: build.mutation({
+            query: ({access, id, urlImg }) => ({
+                url: `ads/${id}/image?file_url=${urlImg}`,
+                method: 'DELETE',
+                headers: {
+                    Authorization: `bearer ${access}`,
+                },
+            }),
+            invalidatesTags: [DATA_TAG]
+        }),
+        changeAdsText: build.mutation({
+            query: ({access, id, title, description, price}) => ({
+                url: `ads/${id}`,
+                method: 'PATCH',
+                headers: {
+                    "content-type": "application/json",
+                    Authorization: `bearer ${access}`,
+                },
+                body: JSON.stringify({
+                    title: title,
+                    description: description,
+                    price: price,
+                  }),
+            }),
+            invalidatesTags: [DATA_TAG]
+        }),
+        addChangeImgs: build.mutation({
+            query: ({access, id, formDataFile}) => ({
+                url: `ads/${id}/image`,
+                method: 'POST',
+                headers: {
+                    Authorization: `bearer ${access}`,
+                },
+                body: formDataFile,
+            }),
+            invalidatesTags: [DATA_TAG]
+        }),
     })
 })
-export const {useGetAdvIDQuery} = advId
+export const {useGetAdvIDQuery, useDeleteImgMutation, useChangeAdsTextMutation, useAddChangeImgsMutation} = advId

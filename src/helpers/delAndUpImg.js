@@ -11,6 +11,24 @@ export const deleteImgFromState= (i, setImages, setImgShow) => {
     })
   }
 
+  export const deleteImgFromStateAndServer= (i, setImages, setImgShow, setImgDelete, el) => {
+    setImages(prevState => {
+      const newState = [...prevState]
+      newState[i] = null;
+      return newState;
+    });
+    setImgShow(prevState => {
+      const newState = [...prevState]
+      newState[i] = null;
+      return newState;
+    });
+    setImgDelete(prevState => {
+      const newState = [...prevState]
+      newState[i] = el.url;
+      return newState;
+    })
+  }
+
   export const handleImageChange = (e, i, setImgShow, images, setImages) => {
     const file = e.target.files[0];
     if (file) {

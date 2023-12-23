@@ -23,14 +23,11 @@ export const Product = ({}) => {
   const navigate = useNavigate();
   const [show, setShow] = useState(false);
   const [show2, setShow2] = useState(false);
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [isReviewModalOpen, setIsReviewModalOpen] = useState(false);
-  const [deleteAdv, {error: errorDelete, isError: isErrorDelete}] = useDeleteAdvMutation();
+  const [deleteAdv, {error: errorDelete, isError: isErrorDelete, isSuccess: isSuccessDelete}] = useDeleteAdvMutation();
   const [timeResult, setTimeResult] = useState('00.00.00');
   const [userId, setUserId] = useState(null);
   const [dataUsers, setDataUsers] = useState([]);
   const [showFullPhone, setShowFullPhone] = useState(false);
-  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
   const { data: dataComments = [] } = useGetCommentsQuery(id);
   const [selectedImage, setSelectedImage] = useState('/img/noFoto.jpeg');
   const {
@@ -47,16 +44,18 @@ export const Product = ({}) => {
   const deleteThisAdv = async () => {
     const access = getAccessTokenLocal()
     await deleteAdv({access, id })
-    console.log('done');
-    navigate(-1)
+    return
   }
 const mainUpdaiteToken = async () => {
         await updateToken();
-        await deleteThisAdv();
+        deleteThisAdv();
+        return
 }
   if(isErrorDelete && errorDelete.status === 401) {
-    console.log(errorDelete.status);
     mainUpdaiteToken()
+  }
+  if(isSuccessDelete) {
+    navigate(-1)
   }
 
 
@@ -113,25 +112,6 @@ const mainUpdaiteToken = async () => {
   const openReviewsModal = () => {
     setOpenReviews(true);
   }
-
-  useEffect(() => {
-    const handleResize = () => {
-      setWindowWidth(window.innerWidth);
-    };
-
-    window.addEventListener('resize', handleResize);
-
-    return () => {
-      window.removeEventListener('resize', handleResize);
-    };
-  }, []);
-
-  const handleOpenModal = () => {
-    if (windowWidth <= 600) {
-      setIsModalOpen(true);
-      setIsReviewModalOpen(true);
-    }
-  };
 
   const [showAdvEdit, setShowAdvEdit] = useState(false);
   const openAdvEditor = () => {
