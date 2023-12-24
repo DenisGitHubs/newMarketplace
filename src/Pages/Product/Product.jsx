@@ -57,7 +57,6 @@ const mainUpdaiteToken = async () => {
   if(isSuccessDelete) {
     navigate(-1)
   }
-
   useEffect(() => {
     if (isSuccess) {
       const result = getTime(data.created_on);
@@ -253,4 +252,5 @@ const mainUpdaiteToken = async () => {
       </S.Container>
     </S.Wrapper>
   ) : null;
+
 };

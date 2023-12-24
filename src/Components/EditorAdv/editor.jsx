@@ -72,7 +72,6 @@ useEffect(() => {
     setIsFormValid(false);
   }
 }, [title, price]);
-
   return (
     <S.Wrapper>
       <S.ContainerBg>
