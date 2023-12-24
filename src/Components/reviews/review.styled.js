@@ -37,12 +37,7 @@ export const Review = styled.div`
 display: -webkit-box;
 display: -ms-flexbox;
 display: flex;
--webkit-box-align: center;
-    -ms-flex-align: center;
-        align-items: center;
--webkit-box-pack: center;
-    -ms-flex-pack: center;
-        justify-content: center;
+align-items: center;
 margin: 15px 0;
 `
 
@@ -74,6 +69,7 @@ export const Img = styled.img`
 display: block;
 width: 100%;
 height: auto;
+border-radius: 50%;
 -o-object-fit: cover;
    object-fit: cover;
 `

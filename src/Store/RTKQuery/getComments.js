@@ -13,10 +13,23 @@ export const comments = createApi({
               'content-type': 'application/json',
             },
           }),
-            providesTags: (result = []) => [
-                DATA_TAG,
-            ],
+            providesTags: ['dataComments']
         }),
+
+        addComment: build.mutation({
+          query: ({ idProduct, commentText, access }) => ({
+            url: `${idProduct}/comments`,
+            method: 'POST',
+            headers: {
+              Authorization: `bearer ${access}`,
+              "content-type": "application/json",
+            },
+            body: {
+              text: commentText
+            }
+          }),
+          invalidatesTags: ['dataComments']
+        })
     })
 })
-export const {useGetCommentsQuery} = comments
+export const { useGetCommentsQuery, useAddCommentMutation } = comments

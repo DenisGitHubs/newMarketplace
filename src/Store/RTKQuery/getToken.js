@@ -28,17 +28,17 @@ export const userToken = createApi({
             ],
         }),
         getNewToken: build.mutation({
-            query: () => ({
+            query: ({ access, refresh }) => ({
                 url: `/auth/login`,
                 method: 'PUT',
                 headers: {
                     "content-type": "application/json",
                     Authorization: `bearer ${access}`,
                 },
-                body: JSON.stringify({
+                body: {
                         access_token: access,
                         refresh_token: refresh,
-                    }),
+                    },
             }),
             invalidatesTags: [DATA_TAG]
         }),
