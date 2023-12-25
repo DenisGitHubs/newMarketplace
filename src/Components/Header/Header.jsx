@@ -6,12 +6,8 @@ export const Header = () => {
   return (
     <S.HeaderWrapper>
       <S.HeaderNav>
-        <St.HeaderLogo>
-            <Link to='/'>
-            <St.LogoMobLink>
+        <St.HeaderLogo to='/'>
               <St.LogoMobImg src='/img/logo-mob.png' alt='logo' />
-            </St.LogoMobLink>
-            </Link>
         </St.HeaderLogo>
         {(window.location.pathname === '/reg') ? '' :
         <Link to='/reg'>

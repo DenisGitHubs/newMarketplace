@@ -116,7 +116,8 @@ export const NewProduct = () => {
                                     setPrice(e.target.value);
                                     }
                                 }}
-                                />                                <S.FormNewArtInputPriceCover/>
+                                />
+                                <S.FormNewArtInputPriceCover/>
                             </S.FormNewArtBlockBlockPrice>
                             <S.FormNewArtBtnPubBtnHov02 
                                 disabled={!saveButtonActive} 

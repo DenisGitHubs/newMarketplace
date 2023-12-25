@@ -30,17 +30,13 @@ export const HeaderSecond = () => {
     navigate('/');
   }
 
-
-
   return (
     <S.Header>
       <S.HeaderNav>
         <S.HeaderLogo>
-          <Link to='/'>
-          <S.LogoMobLink>
+          <S.LogoMobLink to='/'>
             <S.LogoMobImg src='/img/logo-mob.png' alt='logo' />
           </S.LogoMobLink>
-          </Link>
         </S.HeaderLogo>
         <S.HeaderBtnPutAd onClick={() => {navigate('/new-product')}}>
             Разместить объявление

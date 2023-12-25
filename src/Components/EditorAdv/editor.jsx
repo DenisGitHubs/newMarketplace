@@ -12,13 +12,15 @@ import { updateToken } from '../../Api/tokenApi';
 export const EditorAdv = ({data, closeModal }) => {
   const [images, setImages] = useState([null, null, null, null, null]);
   const [imgShow, setImgShow] = useState(data.images);
-  const [imgDelete, setImgDelete] = useState([null, null, null, null, null]);
+  const [imgDelete, setImgDelete] = useState([]);
   const [title, setTitle] = useState(data.title);
   const [description, setDescription] = useState(data.description)
   const [price, setPrice] = useState(data.price)
   const [deleteImg] = useDeleteImgMutation();
-  const [changeAdsText, { isError, error}] = useChangeAdsTextMutation()
-  const [addChangeImgs] = useAddChangeImgsMutation()
+  const [changeAdsText] = useChangeAdsTextMutation();
+  const [addChangeImgs] = useAddChangeImgsMutation();
+  const [isFormValid, setIsFormValid] = useState(false);
+
   useEffect(() => {
     if(imgShow.length < 5) {
       const numberLength = 5 - imgShow.length;
@@ -28,36 +30,70 @@ export const EditorAdv = ({data, closeModal }) => {
     }
   },[])
 
+  useEffect(() => {
+    setIsFormValid(true);
+  }, [title, price]);
+
+useEffect(() => {
+  if (title && price) {
+    setIsFormValid(true);
+  } else {
+    setIsFormValid(false);
+  }
+}, [title, price]);
 
 const saveChanges = async () => {
   const access = getAccessTokenLocal();
   const id = data.id;
-  await changeAdsText({access, id, title, description, price})
-  if(imgDelete.length > 0){
-    imgDelete.forEach((urlImg) => {
-      if(urlImg !== null){
-        console.log('del');
-        deleteImg({access, id, urlImg});
-      }
-    })
+  try{
+    await changeAdsText({access, id, title, description, price})
+    deleteImgFromServer()
+  } catch (error) {
+    if(error.status === 401) {
+      await updateToken();
+      saveChanges()
+      return
   }
-  if(images.length > 0) {
-    images.forEach((image) => {
-        const formDataFile = new FormData();
-        formDataFile.append('file', image);
-        addChangeImgs({access, id, formDataFile})
-        });
-}
-closeModal();
+  }
 };
-const mainUpdaiteToken = async () => {
-  await updateToken();
-  saveChanges();
-  return
+  const deleteImgFromServer = async () => {
+    const access = getAccessTokenLocal();
+    const id = data.id;
+      try{
+        if(imgDelete.length > 0){
+        imgDelete.forEach((urlImg) => {
+          if(urlImg !== null){
+            deleteImg({access, id, urlImg});
+          }
+        })
+        }
+        saveNewImgToServer()
+      } catch (error) {
+        if(error.status === 401) {
+          await updateToken();
+          deleteImgFromServer()
+      }}}
+
+const saveNewImgToServer = async () => {
+  const id = data.id;
+  const access = getAccessTokenLocal();
+  try {
+    if(images.length > 0) {
+      images.forEach((image) => {
+          const formDataFile = new FormData();
+          formDataFile.append('file', image);
+          addChangeImgs({access, id, formDataFile})
+          });
+  }
+  closeModal();
+  } catch (error) {
+    if(error.status === 401) {
+      await updateToken();
+      saveNewImgToServer()
+  }
+  }
 }
-if(isError && error.status === 401) {
-mainUpdaiteToken()
-}
+
   return (
     <S.Wrapper>
       <S.ContainerBg>
@@ -98,7 +134,6 @@ mainUpdaiteToken()
                     src={`http://localhost:8090/${el.url}`}
                     alt="image"
                     key={`image-${i}`}
-                    id="upload-photo"
                     type="file"
                     accept="image/*"
                     onClick={() =>  deleteImgFromStateAndServer(i, setImages, setImgShow, setImgDelete, el)}
@@ -109,7 +144,6 @@ mainUpdaiteToken()
                         src={el}
                         alt="image"
                         key={`image-${i}`}
-                        id="upload-photo"
                         type="file"
                         accept="image/*"
                         onClick={() =>  deleteImgFromState(i, setImages, setImgShow)}
@@ -117,7 +151,6 @@ mainUpdaiteToken()
                     : 
                     <S.FormNewArtImg key={`image-${i}`}>
                     <S.FormNewArtImgCover
-                      id="upload-photo"
                       type="file"
                       accept="image/*"
                       onChange={(e) => {
@@ -130,10 +163,18 @@ mainUpdaiteToken()
               </S.FormNewArtBlock>
               <S.FormNewArtBlockBlockPrice>
                 <S.LabelDescription htmlFor='price'>Цена</S.LabelDescription>
-                <S.FormNewArtInputPrice type='text' value={price} onChange={e => setPrice(e.target.value)} />
-                <S.FormNewArtInputPriceCover />
+                <S.FormNewArtInputPrice type='text' value={price} 
+                onChange={(e) => {
+                  if (/^\d+$/.test(e.target.value) || e.target.value === '') {
+                    setPrice(e.target.value);
+                  }
+              }}/>
               </S.FormNewArtBlockBlockPrice>
-              <S.FormNewArtBtnPubBtnHov02 onClick={() => saveChanges()}>Сохранить</S.FormNewArtBtnPubBtnHov02>
+              <S.FormNewArtBtnPubBtnHov02 
+              onClick={() => saveChanges()}
+              disabled={!isFormValid}
+              $isFormValid={isFormValid}
+              >Сохранить</S.FormNewArtBtnPubBtnHov02>
             </S.ModalFormNewArtFormNewArt>
           </S.ModalContent>
         </S.ModalBlock>

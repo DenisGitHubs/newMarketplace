@@ -58,18 +58,20 @@ const mainUpdaiteToken = async () => {
     navigate(-1)
   }
 
-
-
   useEffect(() => {
     if (isSuccess) {
       const result = getTime(data.created_on);
       setTimeResult(result);
-      setUserId(Number(data.user.id - 1));
-      if (data.images && data.images.length > 0) {
-        setSelectedImage(`http://localhost:8090/${data.images[0].url}`);
+      setUserId(Number(data.user.id) - 1);
+    }
+    if (data.images && data.images.length > 0) {
+      setSelectedImage(`http://localhost:8090/${data.images[0].url}`);
+    } else {
+      if (isSuccess) {
+        setSelectedImage('/img/noFoto.jpeg'); 
       }
     }
-    },[isSuccess]);
+  }, [isSuccess, data]);
 
     useEffect(() => {
        if(isSuccess && show2 ) {
@@ -91,8 +93,6 @@ const mainUpdaiteToken = async () => {
     await refetch();
     return;
   };
-
-
 
   useEffect(() => {
     const fetchData = async () => {

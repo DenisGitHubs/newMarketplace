@@ -150,8 +150,8 @@ export const ProductImageBarDiv = styled.img`
   object-fit: cover;
   transition: all 0.7s ease;
   &:hover {
-    width: 92px;
-    height: 92px;
+    width: 150px;
+    height: 150px;
     z-index: 1;
   }
 `;
@@ -173,7 +173,8 @@ export const ProductImageBarMobile = styled.div`
     bottom: 20px;
     left: calc(50% - (68px / 2));
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
+    column-gap: 5px;
   }
 
   @media screen and (max-width: 600px) {
