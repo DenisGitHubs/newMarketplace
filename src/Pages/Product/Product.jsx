@@ -16,7 +16,7 @@ import { updateToken } from '../../Api/tokenApi';
 import { getSeller } from '../../Api/sellerApi';
 import { useDeleteAdvMutation } from '../../Store/RTKQuery/getMyAds';
 import { getAccessTokenLocal } from '../../helpers/token';
-import { ArrayLeftSvg } from '../../helpers/ArrayLeftSvg/ArrayLeftSvg';
+import { ArrowLeftSvg } from '../../helpers/ArrowLeftSvg/ArrowLeftSvg';
 
 export const Product = ({}) => {
   const { id } = useParams();
@@ -139,7 +139,7 @@ const mainUpdaiteToken = async () => {
               <St.ProductArticleLeft>
                 <St.ProductArticleFillImg>
                 <Link to='/'>
-                    <ArrayLeftSvg/>
+                    <ArrowLeftSvg/>
                   </Link>
                   <St.ProductArticleImage
                     src={selectedImage}

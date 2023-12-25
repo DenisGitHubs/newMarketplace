@@ -26,11 +26,16 @@ export const profileUserData = (data, setUserName, setSurname, setCity, setPhone
 }
 
 export const handleChangeMe = async (access, userName, surname, phone, city, changeMe) => {
-    const email = getEmailFromLocal()
-    const dataChangeMe = {access: access, email: email, userName: userName, surname: surname, phone: phone, city: city}
-    await changeMe(dataChangeMe)
-    return
-}
+  try {
+    const email = getEmailFromLocal();
+    const dataChangeMe = { access, email, userName, surname, phone, city };
+    await changeMe(dataChangeMe);
+    return true;
+  } catch (error) {
+    console.error('An error occurred:', error);
+    return false;
+  }
+};
 
 export const handleAvatarUpload = (file, setAvatar, refetch) => {
     const formData = new FormData();
@@ -50,7 +55,11 @@ export const handleAvatarUpload = (file, setAvatar, refetch) => {
   };
 
 
-export const handleAvatarClick = (event, fileUpload, setAvatar) => {
-    fileUpload.click();
-    setAvatar(event.target.value);
+  export const handleAvatarClick = (event, fileUpload, setAvatar) => {
+    try {
+      fileUpload.click();
+      setAvatar(event.target.value);
+    } catch (error) {
+      console.error('An error occurred:', error);
+    }
   };

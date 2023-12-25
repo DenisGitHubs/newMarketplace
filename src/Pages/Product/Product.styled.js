@@ -425,7 +425,7 @@ export const ProductDescriptionText = styled.p`
   color: #000000;
 `;
 
-// export const ArrayLeft = styled.img`
+// export const ArrowLeft = styled.img`
 //   display: none;
 //   @media screen and (max-width: 1000px) {
 //     display: block;

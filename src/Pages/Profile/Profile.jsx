@@ -9,6 +9,7 @@ import { updateToken } from '../../Api/tokenApi';
 import { useEffect, useState } from 'react';
 import { handleAvatarClick, handleAvatarUpload, handleChangeMe, profileUserData, saveUserLocal } from '../../helpers/user';
 import { useGetAllMyAdsQuery } from '../../Store/RTKQuery/getMyAds';
+import { ModalSuccess } from '../../helpers/ModalSuccess/modalSuccess';
 
 export const Profile = ({}) => {
   const [city, setCity] = useState('')
@@ -17,6 +18,7 @@ export const Profile = ({}) => {
   const [phone, setPhone] = useState('')
   const [surname, setSurname] = useState('')
   const [img, setImg] = useState(null);
+  const [isOpen, setIsOpen] = useState(false);
   const access = getAccessTokenLocal()
   const fileUpload = document.getElementById("file-upload");
   const {data =[], isError, error, isSuccess, refetch} = useGetMeQuery(access);
@@ -43,6 +45,16 @@ export const Profile = ({}) => {
     }
   }, [isSuccess, isError])
 
+  const handleSave = async () => {
+    const success = await handleChangeMe(access, userName, surname, phone, city, changeMe);
+    if (success) {
+      setIsOpen(true);
+      setTimeout(() => {
+        setIsOpen(false);
+      }, 2000);
+    }
+  };
+  
   return (
     <S.Wrapper>
       <S.Container>
@@ -75,7 +87,7 @@ export const Profile = ({}) => {
                           }
                         }}
                       ></S.SettingsImgInput>
-                      <S.SettingsChangePhoto onClick={() => handleAvatarClick(event, fileUpload, setAvatar)}>
+                      <S.SettingsChangePhoto onClick={(event) => handleAvatarClick(event, fileUpload, setAvatar)}>
                         Заменить
                       </S.SettingsChangePhoto>
                     </S.SettingsLeft>
@@ -135,7 +147,10 @@ export const Profile = ({}) => {
                           />
                         </S.SettingsDiv>
 
-                        <S.SettingsButton onClick={() => handleChangeMe(access, userName, surname, phone, city, changeMe)}>Сохранить</S.SettingsButton>
+                        <S.SettingsButton onClick={handleSave}>
+                          Сохранить
+                        </S.SettingsButton>
+                        <ModalSuccess isOpen={isOpen} />
                       </S.SettingsForm>
                     </S.SettingsRight>
                   </S.ProfileSettings>
