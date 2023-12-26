@@ -8,13 +8,16 @@ import * as S from './main.styled';
 import { HeaderSecond } from '../../Components/HeaderSecond/HeaderSecond';
 import { getAccessTokenLocal } from '../../helpers/token';
 import { useGetAllAdsQuery } from '../../Store/RTKQuery/getMyAds';
+import { Loader } from '../../Components/Loader/Loader';
+import { CardLoader } from '../../Components/Loader/CardLoader';
 
 export const Main = () => {
   const userLoggedIn = getAccessTokenLocal();
-  const { data = [], isSuccess } = useGetAllAdsQuery();
+  const { data = [], isSuccess, isLoading } = useGetAllAdsQuery();
   const [searchAdv, setSearchAdv] = useState('');
   const [filteredData, setFilteredData] = useState([]);
   const [error, setError] = useState(null);
+  
   useEffect(() => {
     const filtered = data.filter((product) =>
       product.title.toLowerCase().includes(searchAdv.toLowerCase()),
@@ -36,15 +39,12 @@ export const Main = () => {
           <Search setSearchAdv={setSearchAdv} />
           <S.MainContainer>
             <S.MainH2>Объявления</S.MainH2>
-            {error ? (
-              <S.Error>{error}</S.Error>
-            ) : (
-              <S.MainContent>
-                {filteredData.map((product) => (
-                  <Card key={product.id} product={product} />
-                ))}
-              </S.MainContent>
-            )}
+            {isLoading ? <CardLoader /> : error ? <S.Error>{error}</S.Error> : <S.MainContent>
+            {filteredData.map((product) => (
+              <Card key={product.id} product={product} />
+            ))}
+          </S.MainContent>}
+             
           </S.MainContainer>
         </S.Main>
         <Footer />

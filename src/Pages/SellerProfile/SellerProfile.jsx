@@ -13,6 +13,7 @@ import { saveProducts } from '../../Store/Slices/dataProductsSlice';
 import { formatDate } from '../../helpers/time';
 import { useEffect, useState } from 'react';
 import { useGetAllUsersQuery } from '../../Store/RTKQuery/getUsers';
+import { CardLoader } from '../../Components/Loader/CardLoader';
 
 export const SellerProfile = () => {
   const userLoggedIn = getAccessTokenLocal();
@@ -21,8 +22,8 @@ export const SellerProfile = () => {
   const [showFullPhone, setShowFullPhone] = useState(false);
   const [seller, setSeller] = useState();
   const [sellerAds, setSellerAds] = useState();
-  const { data = [], isSuccess } = useGetAllAdsQuery();
-  const { data: allUsers = [], isSuccess: getUsersSuccess } = useGetAllUsersQuery();
+  const { data = [], isSuccess, isLoading: adsLoading } = useGetAllAdsQuery();
+  const { data: allUsers = [], isSuccess: getUsersSuccess, isLoading } = useGetAllUsersQuery();
 
   useEffect(() => {
     if (isSuccess) {
@@ -36,6 +37,7 @@ export const SellerProfile = () => {
     if (getUsersSuccess) {
       setSeller(allUsers?.filter((user) => user.id === Number(params.id))[0]);
     }
+    
   }, [allUsers]);
 
   return (
@@ -64,34 +66,36 @@ export const SellerProfile = () => {
                         <S.SellerLinkImg target='_self'>
                           <S.SellerImgImg
                             src={
-                              seller?.avatar
-                                ? `http://localhost:8090/${seller?.avatar}`
-                                : ''
+                              (isLoading || seller?.avatar === null)
+                                ? '/img/empty-profile.png'
+                                : `http://localhost:8090/${seller?.avatar}`
                             }
-                            alt={seller?.name}
+                            alt=''
                           />
                         </S.SellerLinkImg>
                       </S.SellerImg>
                     </S.SellerLeft>
                     <S.SellerRight>
+                      {isLoading ? <S.SellerTitleLoading /> : 
                       <S.SellerTitle>
                         {seller?.name ? seller?.name : 'Хз как зовут продавца'}
-                      </S.SellerTitle>
+                      </S.SellerTitle>}
                       <S.SellerCity>{seller?.city}</S.SellerCity>
+                      {isLoading ? <S.SellerInfLoading /> :
                       <S.SellerInf>
-                        Продает товары с {formatDate(seller?.sells_from)}
-                      </S.SellerInf>
+                        {`Продает товары с ${formatDate(seller?.sells_from)}`}
+                      </S.SellerInf> }
 
                       <S.SellerImgMobBlock>
                         <S.SellerImgMob>
                           <S.SellerImgMobLink target='_self'>
                             <S.SellerImgMobImg
                               src={
-                                seller?.avatar
-                                  ? `http://localhost:8090/${seller?.avatar}`
-                                  : ''
+                                (isLoading || seller?.avatar === null)
+                                  ? '/img/empty-profile.png'
+                                  : `http://localhost:8090/${seller?.avatar}`
                               }
-                              alt={seller?.name}
+                              alt=''
                             />
                           </S.SellerImgMobLink>
                         </S.SellerImgMob>
@@ -116,14 +120,14 @@ export const SellerProfile = () => {
               </S.MainProfileSell>
               <S.MainTitle>Товары продавца</S.MainTitle>
             </S.MainCenterBlock>
-
+            {adsLoading ? <CardLoader /> :
             <S.MainContent>
               <S.ContentCards>
                 {sellerAds?.map((product) => (
                   <Card key={product.id} product={product} />
                 ))}
               </S.ContentCards>
-            </S.MainContent>
+            </S.MainContent>}
           </S.MainContainer>
         </S.Main>
         <Footer />

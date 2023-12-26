@@ -17,6 +17,7 @@ import { getSeller } from '../../Api/sellerApi';
 import { useDeleteAdvMutation } from '../../Store/RTKQuery/getMyAds';
 import { getAccessTokenLocal } from '../../helpers/token';
 import { ArrowLeftSvg } from '../../helpers/ArrowLeftSvg/ArrowLeftSvg';
+import { formatPrice } from '../../helpers/price';
 
 export const Product = ({}) => {
   const { id } = useParams();
@@ -184,7 +185,7 @@ const mainUpdaiteToken = async () => {
                         : `Отзывов: ${dataComments.length}`}
                     </St.ProductReviews>
                   </St.ProductInfo>
-                  <St.ProductPrice>{data.price} руб.</St.ProductPrice>
+                  <St.ProductPrice>{formatPrice(data.price)}</St.ProductPrice>
                   {userIsSeller ? (
                     <St.ProductButtonBox>
                       <St.ProductButton onClick={openAdvEditor}>
@@ -210,8 +211,10 @@ const mainUpdaiteToken = async () => {
                   )}
                   <St.ProductAuthor>
                     <St.ProductAuthorImage
-                      src={`http://localhost:8090/${dataUsers[userId].avatar}`}
-                      alt={dataUsers[userId].name}
+                      src={(dataUsers[userId].avatar === null)
+                        ? '/img/empty-profile.png'
+                        : `http://localhost:8090/${dataUsers[userId].avatar}`}
+                      alt=''
                     />
                     <St.ProductAuthorContent>
                       <Link to={`/seller-profile/${dataUsers[userId].id}`}>

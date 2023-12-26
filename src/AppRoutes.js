@@ -5,9 +5,7 @@ import { Profile } from './Pages/Profile/Profile';
 import { SellerProfile } from './Pages/SellerProfile/SellerProfile';
 import { Sign } from './Pages/Registration/sign';
 import { Product } from './Pages/Product/Product';
-import { Review } from './Components/reviews/review';
 import { NewProduct } from './Components/NewProductAdd/newProduct';
-import { EditorAdv } from './Components/EditorAdv/editor';
 import { NotFound } from './Pages/NotFound/NotFound';
 import { ProtectedRoute } from './ProtectedRoutes';
 
@@ -53,6 +51,7 @@ export const AppRoutes = () => {
       <Route path='/product/:id' element={<Product /> } />
       <Route path='/seller-profile/:id' element={<SellerProfile />} />
       <Route path='*' element={<NotFound />} />
+
 
       <Route element={<ProtectedRoute /> }>
           <Route path='/profile' element={<Profile />} />

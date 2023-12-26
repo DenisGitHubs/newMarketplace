@@ -42,20 +42,16 @@ export const ModalFormLogin = styled.div`
 `;
 export const ModalBtnSignupEnt = styled.div`
   width: 278px;
-  height: 62px;
+  height: 52px;
   background-color: #009ee4;
   border-radius: 6px;
   border: none;
-  margin-top: 30px;
-  display: -webkit-box;
-  display: -ms-flexbox;
+  margin-bottom: 10px;
   display: flex;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
   align-items: center;
-  -webkit-box-pack: center;
-  -ms-flex-pack: center;
   justify-content: center;
+  flex-shrink: 0;
+
   &:hover {
     background-color: #0080c1;
   }
@@ -67,7 +63,8 @@ export const ModalBtnSignupEnt = styled.div`
     min-width: 200px;
     height: 46px;
     border: none;
-    margin-top: 26px;
+    margin-top: 15px;
+    margin-bottom: 0;
   }
 `;
 

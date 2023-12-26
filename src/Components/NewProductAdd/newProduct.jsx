@@ -111,6 +111,7 @@ export const NewProduct = () => {
                                 <S.FormNewArtInputPrice
                                 type='text'
                                 value={price}
+                                pattern="\d+,\d{2}"
                                 onChange={(e) => {
                                     if (/^\d+$/.test(e.target.value) || e.target.value === '') {
                                     setPrice(e.target.value);

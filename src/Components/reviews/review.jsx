@@ -84,6 +84,7 @@ export const Review = ({ closeModal, dataComments }) => {
                   />
                 </S.FormNewArtBlock>
                 <S.FormNewArtBtnPubBtnHov02
+                  disabled={!isFormValid}
                   $isFormValid={isFormValid}
                   onClick={addNewComment}
                 >
@@ -97,14 +98,14 @@ export const Review = ({ closeModal, dataComments }) => {
                       <SU.ReviewLeft>
                         <SU.ReviewImg>
                           <SU.Img
-                            src={`http://localhost:8090/${review.author.avatar}`}
+                            src={(review.author.avatar === null) ? '/img/empty-profile.png' : `http://localhost:8090/${review.author.avatar}`}
                             alt=''
                           />
                         </SU.ReviewImg>
                       </SU.ReviewLeft>
                       <SU.ReviewRight>
                         <SU.ReviewNameFontT>
-                          {review.author.name}{' '}
+                          {review.author.name ? review.author.name : 'Неизвестный'}{' '}
                           <SU.Span>{getTime(review.created_on)}</SU.Span>
                         </SU.ReviewNameFontT>
                         <SU.ReviewTitleFontT>Комментарий</SU.ReviewTitleFontT>
