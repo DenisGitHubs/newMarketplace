@@ -32,8 +32,7 @@ export const Profile = ({}) => {
   }
   useEffect(() => {
     if(isSuccess) {
-      const response = data
-      saveUserLocal(response.email, response.name, response.id)
+      saveUserLocal(data.email, data.name, data.id)
       profileUserData(data, setUserName, setSurname, setCity, setPhone, setAvatar)
     }
     if(isError && error.status === 401 && error.data.detail === "Could not validate credentials: Not enough segments") {

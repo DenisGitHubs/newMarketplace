@@ -1,4 +1,3 @@
-import { Link } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { HeaderSecond } from '../HeaderSecond/HeaderSecond';
 import * as S from '../NewProductAdd/newProduct.styled';
@@ -32,15 +31,15 @@ export const EditorAdv = ({data, closeModal }) => {
 
   useEffect(() => {
     setIsFormValid(true);
-  }, [title, price]);
+    }, [title, price]);
 
-useEffect(() => {
-  if (title && price) {
-    setIsFormValid(true);
-  } else {
-    setIsFormValid(false);
-  }
-}, [title, price]);
+  useEffect(() => {
+    if (title && price) {
+      setIsFormValid(true);
+    } else {
+      setIsFormValid(false);
+    }
+  }, [title, price]);
 
 const saveChanges = async () => {
   const access = getAccessTokenLocal();

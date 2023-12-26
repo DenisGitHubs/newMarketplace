@@ -3,7 +3,6 @@ import { HeaderSecond } from '../../Components/HeaderSecond/HeaderSecond';
 import { Footer } from '../../Components/Footer/Footer';
 import { useState, useEffect } from 'react';
 import { getAccessTokenLocal } from '../../helpers/token';
-import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { updateToken } from '../../Api/tokenApi';
 import { useAddAdsWithoutImgMutation, useAddImgsMutation } from '../../Store/RTKQuery/getMyAds';
