@@ -9,7 +9,7 @@ import { updateToken } from '../../Api/tokenApi';
 import { useEffect, useState } from 'react';
 import { handleAvatarClick, handleAvatarUpload, handleChangeMe, profileUserData, saveUserLocal } from '../../helpers/user';
 import { useGetAllMyAdsQuery } from '../../Store/RTKQuery/getMyAds';
-import { ModalSuccess } from '../../helpers/ModalSuccess/modalSuccess';
+import { ModalSuccess } from '../../Components/ModalSuccess/modalSuccess';
 import { CardLoader } from '../../Components/Loader/CardLoader';
 import { useGetNewTokenMutation } from '../../Store/RTKQuery/getToken';
 
@@ -44,7 +44,9 @@ useEffect(() => {
     saveTokenUserLocal(dataRefresh);
     const access = getAccessTokenLocal()
     handleChangeMe(access, userName, surname, phone, city, changeMe)
+    console.log('refetch');
     refetch()
+    console.log('refetch done');
   }
 },[isSuccessRefresh])
   useEffect(() => {

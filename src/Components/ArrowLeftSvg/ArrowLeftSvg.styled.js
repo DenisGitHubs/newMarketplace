@@ -2,7 +2,7 @@ import styled from 'styled-components';
 
 export const ArrowLeft = styled.svg`
   display: none;
-  @media screen and (max-width: 1000px) {
+  @media screen and (max-width: 600px) {
     display: block;
     position: absolute;
     top: 10%;

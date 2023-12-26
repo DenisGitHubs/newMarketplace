@@ -16,8 +16,8 @@ export const MainSearch = styled.div`
     margin: 0 auto;
     padding: 31px 10px 0px;
 
-    @media screen and (max-width: 590px) {
-        width: 100%;
+    @media screen and (max-width: 600px) {
+        width: 80%;
         height: 55px;
         background-color: #009EE4;
         -webkit-box-shadow: 0px 4px 25px rgba(0, 0, 0, 0.05);
@@ -27,12 +27,12 @@ export const MainSearch = styled.div`
         position: fixed;
         left: 0;
         top: 0;
-        z-index: 3;
+        z-index: 5;
     }
 `
 
 export const SearchLogoDesktop = styled.div`
-    @media screen and (max-width: 590px) {
+    @media screen and (max-width: 600px) {
         display: none;
     }
 `
@@ -45,7 +45,7 @@ export const SearchLogoDesktopIcon = styled.img`
 export const SearchLogoMobile = styled.div`
     display: none;  
 
-    @media screen and (max-width: 590px) {
+    @media screen and (max-width: 600px) {
         display: block;
         width: 32px;
         height: 32px;
@@ -53,7 +53,7 @@ export const SearchLogoMobile = styled.div`
 `
 
 export const SearchLogoMobileIcon = styled.img`
-    @media screen and (max-width: 590px) {
+    @media screen and (max-width: 600px) {
         width: 32px;
         height: auto;
         display: block;
@@ -69,12 +69,8 @@ export const SearchForm = styled.form`
     display: -ms-flexbox;
     display: flex;
 
-    @media screen and (max-width: 590px) {
+    @media screen and (max-width: 600px) {
         margin-left: 10px;
-        max-width: 1044px;
-        width: 100%;
-        display: -webkit-box;
-        display: -ms-flexbox;
         display: flex;
     }
 `
@@ -131,7 +127,7 @@ export const SearchTextDesktop = styled.input`
         line-height: 24px;
     }
 
-    @media screen and (max-width: 590px) {
+    @media screen and (max-width: 600px) {
         display: none;
     }
 `
@@ -139,7 +135,7 @@ export const SearchTextDesktop = styled.input`
 export const SearchTextMobile = styled.input`
     display: none;
 
-    @media screen and (max-width: 590px) {
+    @media screen and (max-width: 600px) {
         display: inline-block;
         width: 100%;
         height: 32px;
@@ -150,6 +146,8 @@ export const SearchTextMobile = styled.input`
         font-size: 14px;
         line-height: 21px;
         color: #000000;
+        outline: none;
+        margin-left: 20px;
 
         &::placeholder {
             background-color: transparent;
@@ -204,7 +202,7 @@ export const SearchButton = styled.button`
         background-color: #0080C1;
     }
 
-    @media screen and (max-width: 590px) {
+    @media screen and (max-width: 600px) {
         display: none;
     }
 `

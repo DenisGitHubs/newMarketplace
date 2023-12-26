@@ -15,7 +15,7 @@ import { useGetCommentsQuery } from '../../Store/RTKQuery/getComments';
 import { updateToken } from '../../Api/tokenApi';
 import { useDeleteAdvMutation } from '../../Store/RTKQuery/getMyAds';
 import { getAccessTokenLocal } from '../../helpers/token';
-import { ArrowLeftSvg } from '../../helpers/ArrowLeftSvg/ArrowLeftSvg';
+import { ArrowLeftSvg } from '../../Components/ArrowLeftSvg/ArrowLeftSvg';
 import { formatPrice } from '../../helpers/price';
 import { useGetAllUsersQuery } from '../../Store/RTKQuery/getUsers';
 import { host } from '../../Api/host'
