@@ -21,9 +21,7 @@ export const userToken = createApi({
                     password: dataForGetTokens.password,
                 }),
             }),
-            providesTags: (result = []) => [
-                DATA_TAG,
-            ],
+            providesTags: [DATA_TAG],
         }),
         getNewToken: build.mutation({
             query: ({ access, refresh }) => ({

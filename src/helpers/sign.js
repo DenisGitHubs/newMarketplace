@@ -68,14 +68,13 @@ export const saveAndRegisterUser = async (
   email,
   password,
   name,
-  role,
   surname,
   city,
   setError,
   navigate,
 ) => {
   try {
-    await registerUser(email, password, name, role, surname, city);
+    await registerUser(email, password, name, surname, city);
     handleSignIn(email, password, setError, navigate)
   } catch (error) {
     console.error(error);

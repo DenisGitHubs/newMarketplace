@@ -87,7 +87,6 @@ const mainUpdaiteToken = async () => {
 
 useEffect(() => {
   if(isSuccessSeller) {
-    console.log(dataSeller);
     setDataUsers(dataSeller)
     setShow2(true)
   }

@@ -21,7 +21,6 @@ export const SignUp = ({ setChoiceReg }) => {
   const [name, setName] = useState('');
   const [surname, setSurname] = useState('');
   const [city, setCity] = useState('');
-  const role = 'user';
   const [error, setError] = useState(null);
   const [errorPass, setErrorPass] = useState(null);
   const [passEqual, setPassEqual] = useState(true);
@@ -102,7 +101,6 @@ export const SignUp = ({ setChoiceReg }) => {
                       email,
                       password,
                       name,
-                      role,
                       surname,
                       city,
                       setError,

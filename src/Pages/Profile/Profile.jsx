@@ -4,13 +4,14 @@ import { Card } from '../../Components/Card/Card';
 import { Footer } from '../../Components/Footer/Footer';
 import * as S from './Profile.styled';
 import { useChangeMeMutation, useGetMeQuery } from '../../Store/RTKQuery/getMe';
-import { getAccessTokenLocal } from '../../helpers/token';
+import { getAccessTokenLocal, getRefreshTokenLocal, saveTokenUserLocal } from '../../helpers/token';
 import { updateToken } from '../../Api/tokenApi';
 import { useEffect, useState } from 'react';
 import { handleAvatarClick, handleAvatarUpload, handleChangeMe, profileUserData, saveUserLocal } from '../../helpers/user';
 import { useGetAllMyAdsQuery } from '../../Store/RTKQuery/getMyAds';
 import { ModalSuccess } from '../../helpers/ModalSuccess/modalSuccess';
 import { CardLoader } from '../../Components/Loader/CardLoader';
+import { useGetNewTokenMutation } from '../../Store/RTKQuery/getToken';
 
 export const Profile = ({}) => {
   const [city, setCity] = useState('')
@@ -23,13 +24,29 @@ export const Profile = ({}) => {
   const access = getAccessTokenLocal()
   const fileUpload = document.getElementById("file-upload");
   const {data =[], isError, error, isSuccess, refetch} = useGetMeQuery(access);
-  const [changeMe, {isError: isErrorChangeMe, error: errorChangeMe}] = useChangeMeMutation()
+  const [changeMe, {isError: isErrorChangeMe, error: errorChangeMe, isSuccess: isSuccessChangeMe}] = useChangeMeMutation()
   const {data: dataMyAds=[], isLoading} = useGetAllMyAdsQuery(access)
+  const [refreshAllTokens, { data: dataRefresh, isSuccess: isSuccessRefresh }] = useGetNewTokenMutation();
   const asyncUpgate = async () => {
     await updateToken()
     await refetch()
     return
   }
+useEffect(() => {
+if(isErrorChangeMe){
+  const accessToken = getAccessTokenLocal();
+  const refreshToken = getRefreshTokenLocal();
+  refreshAllTokens({ access: accessToken, refresh: refreshToken })
+}
+},[isErrorChangeMe])
+useEffect(() => {
+  if(isSuccessRefresh){
+    saveTokenUserLocal(dataRefresh);
+    const access = getAccessTokenLocal()
+    handleChangeMe(access, userName, surname, phone, city, changeMe)
+    refetch()
+  }
+},[isSuccessRefresh])
   useEffect(() => {
     if(isSuccess) {
       saveUserLocal(data.email, data.name, data.id)
@@ -44,15 +61,17 @@ export const Profile = ({}) => {
       return
     }
   }, [isSuccess, isError])
-
+useEffect(() => {
+  if(isSuccessChangeMe) {
+    setIsOpen(true);
+    setTimeout(() => {
+      setIsOpen(false);
+    }, 2000);
+  }
+}, [isSuccessChangeMe])
   const handleSave = async () => {
-    const success = await handleChangeMe(access, userName, surname, phone, city, changeMe);
-    if (success) {
-      setIsOpen(true);
-      setTimeout(() => {
-        setIsOpen(false);
-      }, 2000);
-    }
+    await handleChangeMe(access, userName, surname, phone, city, changeMe);
+
   };
   
   return (

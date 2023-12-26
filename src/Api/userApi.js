@@ -7,7 +7,6 @@ import { host } from './host'
     email,
     password,
     name,
-    role,
     surname,
     city,) => {
     
@@ -17,7 +16,7 @@ import { host } from './host'
         email: email,
         password: password,
         name: name,
-        role: role,
+        role: 'user',
         city: city,
         surname: surname,
       }),
