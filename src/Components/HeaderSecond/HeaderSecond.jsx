@@ -1,27 +1,9 @@
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import * as S from './HeaderSecond.styled';
-import { useState, useEffect } from 'react';
 import { deleteUserLocal } from '../../helpers/user';
 
 export const HeaderSecond = () => {
-
   const navigate = useNavigate();
-
-
-  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
-
-  useEffect(() => {
-    const handleResize = () => {
-      setWindowWidth(window.innerWidth);
-    };
-
-    window.addEventListener('resize', handleResize);
-
-    return () => {
-      window.removeEventListener('resize', handleResize);
-    };
-  }, []);
-
   const logOut = () => {
     deleteUserLocal();
     if (window.location.pathname === '/') {

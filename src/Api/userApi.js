@@ -1,7 +1,7 @@
 
 import { getAccessTokenLocal } from "../helpers/token";
 import { updateToken } from "./tokenApi";
-export const host = "http://127.0.0.1:8090";
+import { host } from './host'
 
   export const registerUser = async ( 
     email,

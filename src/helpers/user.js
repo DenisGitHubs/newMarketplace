@@ -1,5 +1,4 @@
 import { uploadUserAvatar } from "../Api/userApi";
-import { deleteTokenLocal } from "./token";
 
 export const saveUserLocal = (email, nameUser, id) => {
     localStorage.setItem('email', email);

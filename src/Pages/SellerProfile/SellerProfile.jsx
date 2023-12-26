@@ -7,9 +7,7 @@ import * as St from '../../Components/NewProductAdd/newProduct.styled'
 import { Header } from '../../Components/Header/Header';
 import { useNavigate, useParams } from 'react-router-dom';
 import { getAccessTokenLocal } from '../../helpers/token';
-import { useDispatch, useSelector } from 'react-redux';
 import { useGetAllAdsQuery } from '../../Store/RTKQuery/getAds';
-import { saveProducts } from '../../Store/Slices/dataProductsSlice';
 import { formatDate } from '../../helpers/time';
 import { useEffect, useState } from 'react';
 import { useGetAllUsersQuery } from '../../Store/RTKQuery/getUsers';
@@ -23,8 +21,10 @@ export const SellerProfile = () => {
   const [seller, setSeller] = useState();
   const [sellerAds, setSellerAds] = useState();
   const { data = [], isSuccess, isLoading: adsLoading } = useGetAllAdsQuery();
-  const { data: allUsers = [], isSuccess: getUsersSuccess, isLoading } = useGetAllUsersQuery();
-
+  const { data: allUsers = [], isSuccess: getUsersSuccess, isLoading, isError, refetch } = useGetAllUsersQuery();
+  if(isError) {
+    refetch();
+  }
   useEffect(() => {
     if (isSuccess) {
       setSellerAds(

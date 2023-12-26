@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom';
 import * as S from './Card.styled';
 import { getTime } from '../../helpers/time';
 import { formatPrice } from '../../helpers/price';
-
+import { host } from '../../Api/host'
 export const Card = ({ product }) => {
   const timeResult = getTime(product.created_on)
   return (
@@ -10,7 +10,7 @@ export const Card = ({ product }) => {
       <S.CardItemContainer>
         <S.CardImageWrapper>
           <Link to={`/product/${product.id}`} >
-            <S.CardImage src={product.images.length > 0 ? `http://localhost:8090/${product.images[0].url}` : '/img/noFoto.jpeg'} alt='picture' />
+            <S.CardImage src={product.images.length > 0 ? `${host}/${product.images[0].url}` : '/img/noFoto.jpeg'} alt='picture' />
           </Link>
         </S.CardImageWrapper>
         <S.CardContent>

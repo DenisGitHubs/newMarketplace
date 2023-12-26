@@ -1,9 +1,10 @@
 import { createApi, fetchBaseQuery} from '@reduxjs/toolkit/query/react'
+import { host } from '../../Api/host'
 const DATA_TAG = { type: "Commets", id: "LIST" };
 export const comments = createApi({
     reducerPath: 'comments',
     tagTypes: ['dataComments'],
-    baseQuery: fetchBaseQuery({baseUrl: 'http://localhost:8090/ads/'}),
+    baseQuery: fetchBaseQuery({baseUrl: `${host}/ads/`}),
     endpoints: (build) => ({
         getComments: build.query({
           query: (idProduct) => ({

@@ -8,7 +8,7 @@ import { useParams } from 'react-router-dom';
 import { getAccessTokenLocal, getRefreshTokenLocal, saveTokenUserLocal } from '../../helpers/token';
 import { useEffect, useState } from 'react';
 import { useGetNewTokenMutation } from '../../Store/RTKQuery/getToken';
-
+import { host } from '../../Api/host'
 
 
 export const Review = ({ closeModal, dataComments }) => {
@@ -98,7 +98,7 @@ export const Review = ({ closeModal, dataComments }) => {
                       <SU.ReviewLeft>
                         <SU.ReviewImg>
                           <SU.Img
-                            src={(review.author.avatar === null) ? '/img/empty-profile.png' : `http://localhost:8090/${review.author.avatar}`}
+                            src={(review.author.avatar === null) ? '/img/empty-profile.png' : `${host}/${review.author.avatar}`}
                             alt=''
                           />
                         </SU.ReviewImg>

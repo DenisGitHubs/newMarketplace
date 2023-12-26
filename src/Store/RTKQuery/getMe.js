@@ -1,12 +1,11 @@
-
+import { host } from '../../Api/host'
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 const DATA_TAG = { type: 'dataMe', id: 'LIST' };
-export const host = 'http://127.0.0.1:8090';
 
 export const me = createApi({
   reducerPath: 'me',
   tagTypes: ['dataMe'],
-  baseQuery: fetchBaseQuery({ baseUrl: `${host}` }),
+  baseQuery: fetchBaseQuery({ baseUrl: `${host}/` }),
   endpoints: (build) => ({
     getMe: build.query({
       query: (access) => ({

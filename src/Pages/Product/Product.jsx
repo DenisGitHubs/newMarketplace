@@ -13,12 +13,12 @@ import { useGetAdvIDQuery } from '../../Store/RTKQuery/getAdvId';
 import { getTime, formatDate } from '../../helpers/time';
 import { useGetCommentsQuery } from '../../Store/RTKQuery/getComments';
 import { updateToken } from '../../Api/tokenApi';
-import { getSeller } from '../../Api/sellerApi';
 import { useDeleteAdvMutation } from '../../Store/RTKQuery/getMyAds';
 import { getAccessTokenLocal } from '../../helpers/token';
 import { ArrowLeftSvg } from '../../helpers/ArrowLeftSvg/ArrowLeftSvg';
 import { formatPrice } from '../../helpers/price';
-
+import { useGetAllUsersQuery } from '../../Store/RTKQuery/getUsers';
+import { host } from '../../Api/host'
 export const Product = ({}) => {
   const { id } = useParams();
   const navigate = useNavigate();
@@ -30,11 +30,11 @@ export const Product = ({}) => {
   const [dataUsers, setDataUsers] = useState([]);
   const [showFullPhone, setShowFullPhone] = useState(false);
   const { data: dataComments = [] } = useGetCommentsQuery(id);
+  const { data: dataSeller = [], isError: isErrorSeller, isSuccess: isSuccessSeller, refetch: refetchSeller } = useGetAllUsersQuery();
   const [selectedImage, setSelectedImage] = useState('/img/noFoto.jpeg');
   const {
     data = [],
     isError,
-    error,
     isSuccess,
     refetch,
   } = useGetAdvIDQuery(id);
@@ -47,6 +47,11 @@ export const Product = ({}) => {
     await deleteAdv({access, id })
     return
   }
+  useEffect(() => {
+    if(isError){
+      refetch()
+    }
+  },[isError])
 const mainUpdaiteToken = async () => {
         await updateToken();
         deleteThisAdv();
@@ -66,7 +71,7 @@ const mainUpdaiteToken = async () => {
       setUserId(Number(data.user.id) - 1);
     }
     if (data.images && data.images.length > 0) {
-      setSelectedImage(`http://localhost:8090/${data.images[0].url}`);
+      setSelectedImage(`${host}/${data.images[0].url}`);
     } else {
       if (isSuccess) {
         setSelectedImage('/img/noFoto.jpeg'); 
@@ -80,35 +85,20 @@ const mainUpdaiteToken = async () => {
       }
       },[isSuccess, show2]);
 
-    useEffect(() => {
-       getSeller()
-       if(isError && error.status == 401 ) {
-        asyncUpgate()
-        getSeller()
-      }
+useEffect(() => {
+  if(isSuccessSeller) {
+    console.log(dataSeller);
+    setDataUsers(dataSeller)
+    setShow2(true)
+  }
+}, [isSuccessSeller])
 
-      },[isSuccess]);
+useEffect(() => {
+if(isErrorSeller) {
+  refetchSeller();
 
-  const asyncUpgate = async () => {
-    await updateToken();
-    await refetch();
-    return;
-  };
-
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const fetchedDataUser = await getSeller();
-        setDataUsers(fetchedDataUser);
-      } catch (error) {
-        console.error('Ушел на базу:', error);
-      } finally {
-        setShow2(true)
-      }
-    };
-    fetchData(); // Вызываем функцию fetchData при монтировании компонента
-  }, []);
-
+}
+},[isErrorSeller])
   const [openReviews, setOpenReviews] = useState(false);
   const openReviewsModal = () => {
     setOpenReviews(true);
@@ -150,10 +140,10 @@ const mainUpdaiteToken = async () => {
                     {data.images.map((image) => (
                       <St.ProductImageBarDiv
                         key={image.id}
-                        src={`http://localhost:8090/${image.url}`}
+                        src={`${host}/${image.url}`}
                         alt='Фото товара'
                         onClick={() =>
-                          handleImageClick(`http://localhost:8090/${image.url}`)
+                          handleImageClick(`${host}/${image.url}`)
                         }
                       />
                     ))}
@@ -162,8 +152,8 @@ const mainUpdaiteToken = async () => {
                     {data.images.map((image) => (
                       <St.ProductImageBarMobileCircle 
                         key={image.id}
-                        onClick={() => handleImageClick(`http://localhost:8090/${image.url}`)}
-                        $active={selectedImage === `http://localhost:8090/${image.url}`}
+                        onClick={() => handleImageClick(`${host}/${image.url}`)}
+                        $active={selectedImage === `${host}/${image.url}`}
                       />
                     ))}
                   </St.ProductImageBarMobile>
@@ -213,7 +203,7 @@ const mainUpdaiteToken = async () => {
                     <St.ProductAuthorImage
                       src={(dataUsers[userId].avatar === null)
                         ? '/img/empty-profile.png'
-                        : `http://localhost:8090/${dataUsers[userId].avatar}`}
+                        : `${host}/${dataUsers[userId].avatar}`}
                       alt=''
                     />
                     <St.ProductAuthorContent>

@@ -7,7 +7,7 @@ import { deleteImgFromState, deleteImgFromStateAndServer, handleImageChange } fr
 import { useAddChangeImgsMutation, useChangeAdsTextMutation, useDeleteImgMutation } from '../../Store/RTKQuery/getAdvId';
 import { getAccessTokenLocal } from '../../helpers/token';
 import { updateToken } from '../../Api/tokenApi';
-
+import { host } from '../../Api/host'
 
 export const EditorAdv = ({data, closeModal }) => {
   const [images, setImages] = useState([null, null, null, null, null]);
@@ -131,7 +131,7 @@ const saveNewImgToServer = async () => {
                 {imgShow.map((el, i) => el ? el.url ?
                 <S.FormNewArtImg key={`image-${i}`}>
                 <S.Img
-                    src={`http://localhost:8090/${el.url}`}
+                    src={`${host}/${el.url}`}
                     alt="image"
                     key={`image-${i}`}
                     type="file"
