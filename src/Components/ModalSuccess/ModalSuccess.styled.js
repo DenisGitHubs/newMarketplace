@@ -5,6 +5,7 @@ export const ModalSuccess = styled.div`
   height: 50px;
   margin-top: 30px;
 `;
+
 export const Message = styled.p`
   color: green;
   font-weight: 600;

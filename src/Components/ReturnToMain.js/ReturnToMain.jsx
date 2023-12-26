@@ -5,10 +5,14 @@ export const ReturnToMain = () => {
   return (
     <S.MainReturnToMain>
       <S.ReturnToMainLogoDesktop>
-        <S.ReturnToMainLogoDesktopIcon src='/img/logo.png' />
+        <Link to='/'>
+          <S.ReturnToMainLogoDesktopIcon src='/img/logo.png' />
+        </Link>
       </S.ReturnToMainLogoDesktop>
       <S.ReturnToMainLogoMobile>
-        <S.ReturnToMainLogoMobileIcon src='/img/logo-mob.png' />
+        <Link to='/'>
+          <S.ReturnToMainLogoMobileIcon src='/img/logo-mob.png' />
+        </Link>
       </S.ReturnToMainLogoMobile>
       <S.ReturnToMainForm>
         <Link to='/'>

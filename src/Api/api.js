@@ -1,6 +1,5 @@
 import { saveUserAfterReg } from '../Store/Slices/userSlice';
-
-export const host = 'http://127.0.0.1:8090';
+import { host } from './host'
 export const registerUser = async (
   dispatch,
   email,

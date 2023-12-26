@@ -1,10 +1,11 @@
 
 import { createApi, fetchBaseQuery} from '@reduxjs/toolkit/query/react'
+import { host } from '../../Api/host'
 const DATA_TAG = { type: "Advs", id: "LIST" };
 export const ads = createApi({
     reducerPath: 'ads',
     tagTypes: ['dataAds'],
-    baseQuery: fetchBaseQuery({baseUrl: 'http://localhost:8090/'}),
+    baseQuery: fetchBaseQuery({baseUrl: `${host}/`}),
     endpoints: (build) => ({
         getAllAds: build.query({
             query: () => 'ads',
@@ -16,5 +17,3 @@ export const ads = createApi({
 })
 
 export const {useGetAllAdsQuery} = ads
-
-// 'content-type': 'multipart/form-data',

@@ -424,14 +424,3 @@ export const ProductDescriptionText = styled.p`
   line-height: 24px;
   color: #000000;
 `;
-
-// export const ArrowLeft = styled.img`
-//   display: none;
-//   @media screen and (max-width: 1000px) {
-//     display: block;
-//     position: absolute;
-//     top: 20px;
-//     left: 27px;
-//     cursor: pointer;
-//   }
-// `;

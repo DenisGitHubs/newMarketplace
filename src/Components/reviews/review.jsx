@@ -8,7 +8,7 @@ import { useParams } from 'react-router-dom';
 import { getAccessTokenLocal, getRefreshTokenLocal, saveTokenUserLocal } from '../../helpers/token';
 import { useEffect, useState } from 'react';
 import { useGetNewTokenMutation } from '../../Store/RTKQuery/getToken';
-
+import { host } from '../../Api/host'
 
 
 export const Review = ({ closeModal, dataComments }) => {
@@ -84,6 +84,7 @@ export const Review = ({ closeModal, dataComments }) => {
                   />
                 </S.FormNewArtBlock>
                 <S.FormNewArtBtnPubBtnHov02
+                  disabled={!isFormValid}
                   $isFormValid={isFormValid}
                   onClick={addNewComment}
                 >
@@ -97,14 +98,14 @@ export const Review = ({ closeModal, dataComments }) => {
                       <SU.ReviewLeft>
                         <SU.ReviewImg>
                           <SU.Img
-                            src={`http://localhost:8090/${review.author.avatar}`}
+                            src={(review.author.avatar === null) ? '/img/empty-profile.png' : `${host}/${review.author.avatar}`}
                             alt=''
                           />
                         </SU.ReviewImg>
                       </SU.ReviewLeft>
                       <SU.ReviewRight>
                         <SU.ReviewNameFontT>
-                          {review.author.name}{' '}
+                          {review.author.name ? review.author.name : 'Неизвестный'}{' '}
                           <SU.Span>{getTime(review.created_on)}</SU.Span>
                         </SU.ReviewNameFontT>
                         <SU.ReviewTitleFontT>Комментарий</SU.ReviewTitleFontT>

@@ -1,9 +1,10 @@
 import { createApi, fetchBaseQuery} from '@reduxjs/toolkit/query/react'
+import { host } from '../../Api/host'
 const DATA_TAG = { type: "myAdvs", id: "LIST" };
 export const myAds = createApi({
     reducerPath: 'myAds',
     tagTypes: ['myAds'],
-    baseQuery: fetchBaseQuery({baseUrl: 'http://localhost:8090/'}),
+    baseQuery: fetchBaseQuery({baseUrl: `${host}/`}),
     endpoints: (build) => ({
         getAllMyAds: build.query({
                 query: (access) => ({

@@ -147,6 +147,17 @@ export const SellerTitle = styled.h3`
   }
 `;
 
+export const SellerTitleLoading = styled.div`
+  width: 100px;
+  height: 20px;
+  background-color: #f0f0f0;
+`
+export const SellerInfLoading = styled.div`
+  width: 170px;
+  height: 20px;
+  background-color: #f0f0f0;
+`
+
 export const SellerCity = styled.p`
   font-size: 16px;
   line-height: 21px;

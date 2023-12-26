@@ -56,22 +56,3 @@ export const SignIn = ({ setChoiceReg }) => {
     </S.Wrapper>
   );
 };
-
-
-// onClick={(event) => {
-//   if (
-//     validateFormLog(
-//       email,
-//       password,
-//       setError,
-//       event
-//     )
-//   ) {
-//     handleSignIn(
-//       email,
-//       password,
-//       setError,
-//       navigate
-//     );
-//   }
-// }}

@@ -25,7 +25,7 @@ export const MainReturnToMain = styled.div`
 `;
 
 export const ReturnToMainLogoDesktop = styled.div`
-  @media screen and (max-width: 590px) {
+  @media screen and (max-width: 600px) {
     display: none;
   }
 `;

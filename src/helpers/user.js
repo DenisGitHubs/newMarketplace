@@ -1,5 +1,4 @@
 import { uploadUserAvatar } from "../Api/userApi";
-import { deleteTokenLocal } from "./token";
 
 export const saveUserLocal = (email, nameUser, id) => {
     localStorage.setItem('email', email);
@@ -17,7 +16,7 @@ export const deleteUserLocal = () => {
 }
 export const getEmailFromLocal = () => localStorage.getItem('email')
 
-export const profileUserData = (data, setUserName, setSurname, setCity, setPhone, setAvatar) => {
+export const profileUserData = (data, setUserName, setSurname, setCity, setPhone, setAvatar, setProfileData) => {
     if(data.name !== '') setUserName(data.name);
     if(data.surname !== '') setSurname(data.surname);
     if(data.city !== '') setCity(data.city)

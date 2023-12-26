@@ -2,11 +2,7 @@ import { Link } from "react-router-dom";
 import * as S from "./Footer.styled";
 
 
-export const Footer = ({ setNewProductModal }) => {
-
-    const openModal = () => {
-        setNewProductModal(true);
-    }
+export const Footer = () => {
 
     return (
         <S.FooterWrapper>

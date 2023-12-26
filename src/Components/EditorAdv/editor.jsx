@@ -1,4 +1,3 @@
-import { Link } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { HeaderSecond } from '../HeaderSecond/HeaderSecond';
 import * as S from '../NewProductAdd/newProduct.styled';
@@ -7,7 +6,7 @@ import { deleteImgFromState, deleteImgFromStateAndServer, handleImageChange } fr
 import { useAddChangeImgsMutation, useChangeAdsTextMutation, useDeleteImgMutation } from '../../Store/RTKQuery/getAdvId';
 import { getAccessTokenLocal } from '../../helpers/token';
 import { updateToken } from '../../Api/tokenApi';
-
+import { host } from '../../Api/host'
 
 export const EditorAdv = ({data, closeModal }) => {
   const [images, setImages] = useState([null, null, null, null, null]);
@@ -32,15 +31,15 @@ export const EditorAdv = ({data, closeModal }) => {
 
   useEffect(() => {
     setIsFormValid(true);
-  }, [title, price]);
+    }, [title, price]);
 
-useEffect(() => {
-  if (title && price) {
-    setIsFormValid(true);
-  } else {
-    setIsFormValid(false);
-  }
-}, [title, price]);
+  useEffect(() => {
+    if (title && price) {
+      setIsFormValid(true);
+    } else {
+      setIsFormValid(false);
+    }
+  }, [title, price]);
 
 const saveChanges = async () => {
   const access = getAccessTokenLocal();
@@ -131,7 +130,7 @@ const saveNewImgToServer = async () => {
                 {imgShow.map((el, i) => el ? el.url ?
                 <S.FormNewArtImg key={`image-${i}`}>
                 <S.Img
-                    src={`http://localhost:8090/${el.url}`}
+                    src={`${host}/${el.url}`}
                     alt="image"
                     key={`image-${i}`}
                     type="file"
