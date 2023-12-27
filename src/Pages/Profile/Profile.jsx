@@ -24,7 +24,7 @@ export const Profile = ({}) => {
   const access = getAccessTokenLocal()
   const fileUpload = document.getElementById("file-upload");
   const {data =[], isError, error, isSuccess, refetch} = useGetMeQuery(access);
-  const [changeMe, {isError: isErrorChangeMe, error: errorChangeMe, isSuccess: isSuccessChangeMe}] = useChangeMeMutation()
+  const [changeMe, {isError: isErrorChangeMe, error: errorChangeMe, isSuccess: isSuccessChangeMe, isLoading: isLoadingChange}] = useChangeMeMutation()
   const {data: dataMyAds=[], isLoading} = useGetAllMyAdsQuery(access)
   const [refreshAllTokens, { data: dataRefresh, isSuccess: isSuccessRefresh }] = useGetNewTokenMutation();
   const asyncUpgate = async () => {
@@ -39,18 +39,19 @@ if(isErrorChangeMe){
   refreshAllTokens({ access: accessToken, refresh: refreshToken })
 }
 },[isErrorChangeMe])
+const updateNewData = async () => {
+  await saveTokenUserLocal(dataRefresh);
+  const access = getAccessTokenLocal()
+  await handleChangeMe(access, userName, surname, phone, city, changeMe)
+}
 useEffect(() => {
   if(isSuccessRefresh){
-    saveTokenUserLocal(dataRefresh);
-    const access = getAccessTokenLocal()
-    handleChangeMe(access, userName, surname, phone, city, changeMe)
-    console.log('refetch');
-    refetch()
-    console.log('refetch done');
+    updateNewData()
   }
 },[isSuccessRefresh])
+
   useEffect(() => {
-    if(isSuccess) {
+    if(isSuccess && !isLoadingChange) {
       saveUserLocal(data.email, data.name, data.id)
       profileUserData(data, setUserName, setSurname, setCity, setPhone, setAvatar)
     }
@@ -63,6 +64,7 @@ useEffect(() => {
       return
     }
   }, [isSuccess, isError])
+
 useEffect(() => {
   if(isSuccessChangeMe) {
     setIsOpen(true);

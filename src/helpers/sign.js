@@ -60,7 +60,7 @@ export const handleSignIn = async (email, password, setError, navigate) => {
     navigate('/profile')
   } catch (error) {
     console.error(error);
-    setError('Неизвестная ошибка');
+    setError(`${error.message}. Проверьте вводимые данные`);
   }
 };
 
@@ -78,6 +78,7 @@ export const saveAndRegisterUser = async (
     handleSignIn(email, password, setError, navigate)
   } catch (error) {
     console.error(error);
+    console.log(error.message);
     setError('Неизвестная ошибка');
   }
 };
